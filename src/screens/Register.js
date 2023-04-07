@@ -5,11 +5,13 @@ import LoginSVG from "../assets/images/misc/login.svg";
 import {
   SafeAreaView,
   useSafeAreaInsets,
+  StyleSheet,
 } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
+import { Dropdown } from "react-native-element-dropdown";
 
 // const handleButtonPress = () => {
 //   fetch("URL GOES HERE", {
@@ -22,20 +24,21 @@ import CustomButton from "../components/CustomButton";
 const Register = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [fname, setFName] = useState("");
-  const [lname, setLName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errText, setErrText] = useState(null);
-  const handleButtonPress = () => {
-    alert(fname);
-    fetch("mongodb://127.0.0.1:27017:3000/Teacher/enroll", {
-      method: "POST",
-      body: JSON.stringify({ name: fname }),
-    }).catch((err) => {
-      setErrText(err?.message ?? "Something went wrong");
-    });
+  const [text, setText] = useState("");
+  const data = [
+    { label: "Teacher", value: "1" },
+    { label: "Student", value: "2" },
+  ];
+  const renderLabel = () => {
+    if (value || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && { color: "blue" }]}>
+          Dropdown label
+        </Text>
+      );
+    }
+    return null;
   };
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -56,39 +59,49 @@ const Register = ({ navigation }) => {
               marginBottom: 30,
             }}
           >
-            Registeration Screen
+            Registration Screen
           </Text>
-
           <InputField
             label={"First Name"}
-            onChangeText={setFName}
-            value={fname}
+            onChangeText={setText}
+            value={text}
           />
-          <InputField
-            label={"Last Name"}
-            onChangeText={setLName}
-            value={lname}
-          />
-          <InputField
-            label={"Email ID"}
-            keyboardType="email-address"
-            onChangeText={setEmail}
-            value={email}
-          />
-          <InputField
-            label={"Password"}
-            inputType="password"
-            fieldButtonFunction={() => {}}
-            onChangeText={setPassword}
-            value={password}
+          <Dropdown
+            style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={data}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? "Select item" : "..."}
+            searchPlaceholder="Search..."
+            value={value}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={(item) => {
+              setValue(item.value);
+              setIsFocus(false);
+            }}
+            renderLeftIcon={() => (
+              <AntDesign
+                style={styles.icon}
+                color={isFocus ? "blue" : "black"}
+                name="Safety"
+                size={20}
+              />
+            )}
           />
           <CustomButton
             label={"Register"}
-            onPress={handleButtonPress}
-            // Alert.alert("Alert me", `text is ${password}`, [
-            //   { text: "OK", onPress: () => {} },
-            // ])
-            // }
+            onPress={() =>
+              Alert.alert("Alert me", `text is ${text}`, [
+                { text: "OK", onPress: () => {} },
+              ])
+            }
           />
         </View>
         <View
@@ -107,4 +120,44 @@ const Register = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
 export default Register;
+// const styles = StyleSheet.create({
+//   container: {
+//     backgroundColor: "white",
+//     padding: 16,
+//   },
+//   dropdown: {
+//     height: 50,
+//     borderColor: "gray",
+//     borderWidth: 0.5,
+//     borderRadius: 8,
+//     paddingHorizontal: 8,
+//   },
+//   icon: {
+//     marginRight: 5,
+//   },
+//   label: {
+//     position: "absolute",
+//     backgroundColor: "white",
+//     left: 22,
+//     top: 8,
+//     zIndex: 999,
+//     paddingHorizontal: 8,
+//     fontSize: 14,
+//   },
+//   placeholderStyle: {
+//     fontSize: 16,
+//   },
+//   selectedTextStyle: {
+//     fontSize: 16,
+//   },
+//   iconStyle: {
+//     width: 20,
+//     height: 20,
+//   },
+//   inputSearchStyle: {
+//     height: 40,
+//     fontSize: 16,
+//   },
+// });
