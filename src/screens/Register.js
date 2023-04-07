@@ -25,6 +25,16 @@ const Register = ({ navigation }) => {
   const [lname, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errText, setErrText] = useState(null);
+  const handleButtonPress = () => {
+    alert(fname);
+    fetch("mongodb://127.0.0.1:27017:3000/Teacher/enroll", {
+      method: "POST",
+      body: JSON.stringify({ name: fname }),
+    }).catch((err) => {
+      setErrText(err?.message ?? "Something went wrong");
+    });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -74,11 +84,11 @@ const Register = ({ navigation }) => {
           />
           <CustomButton
             label={"Register"}
-            onPress={() =>
-              Alert.alert("Alert me", `text is ${password}`, [
-                { text: "OK", onPress: () => {} },
-              ])
-            }
+            onPress={handleButtonPress}
+            // Alert.alert("Alert me", `text is ${password}`, [
+            //   { text: "OK", onPress: () => {} },
+            // ])
+            // }
           />
         </View>
         <View
