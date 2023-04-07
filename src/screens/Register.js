@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Image } from "expo-image";
 import LoginSVG from "../assets/images/misc/login.svg";
 import {
@@ -8,7 +8,7 @@ import {
 } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import InputField from "../components/InputField.js";
+import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 
 // const handleButtonPress = () => {
@@ -22,7 +22,9 @@ import CustomButton from "../components/CustomButton";
 const Register = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [fname, setFName] = useState("");
-  const [text, setText] = useState("");
+  const [lname, setLName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -46,26 +48,38 @@ const Register = ({ navigation }) => {
           >
             Registeration Screen
           </Text>
-          {/* <Text>FName: {text}</Text> */}
+
           <InputField
             label={"First Name"}
-            // onChangeText={(text) => setText(text)}
-            // value={text}
+            onChangeText={setFName}
+            value={fname}
           />
-          <InputField label={"Last Name"} />
-          <InputField label={"Email ID"} keyboardType="email-address" />
-
-          <TextInput
-            placeholder="Enter Name"
-            onChangeText={(text) => setText(text)}
-            value={text}
+          <InputField
+            label={"Last Name"}
+            onChangeText={setLName}
+            value={lname}
+          />
+          <InputField
+            label={"Email ID"}
+            keyboardType="email-address"
+            onChangeText={setEmail}
+            value={email}
           />
           <InputField
             label={"Password"}
             inputType="password"
             fieldButtonFunction={() => {}}
+            onChangeText={setPassword}
+            value={password}
           />
-          <CustomButton label={"Register"} onPress={() => alert(text)} />
+          <CustomButton
+            label={"Register"}
+            onPress={() =>
+              Alert.alert("Alert me", `text is ${password}`, [
+                { text: "OK", onPress: () => {} },
+              ])
+            }
+          />
         </View>
         <View
           style={{
