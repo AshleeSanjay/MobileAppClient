@@ -9,30 +9,38 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import LoginSVG from "../assets/images/misc/login.svg";
-
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
-import { getBaseUrl } from "../utils";
 import { Dropdown } from "react-native-element-dropdown";
 
+// const handleButtonPress = () => {
+//   fetch("URL GOES HERE", {
+//     method: "POST",
+//     body: JSON.stringify({ name: "Ashlee" }),
+//   }).catch((err) => {
+//     setErrText(err?.message ?? "Something went wrong");
+//   });
+// };
+// const handleButtonPress = () => {
+//   fetch(`${getBaseUrl()}/Teacher/enroll?email=${email}&name=${fname}`, {
+//     headers: { "content-type": "application/json" },
+//   }).catch((err) => {
+//     setErrText(err?.message ?? "Something went wrong");
+//   });
+// };
 const Register = ({ navigation }) => {
   const insets = useSafeAreaInsets();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [errText, setErrText] = useState(null);
+  const [fname, setFName] = useState("");
+  const [text, setText] = useState("");
   const data = [
     { label: "Teacher", value: "1" },
     { label: "Student", value: "2" },
   ];
-  const [category, setCategory] = useState(null);
+  const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const renderLabel = () => {
     if (value || isFocus) {
@@ -44,24 +52,6 @@ const Register = ({ navigation }) => {
     }
     return null;
   };
-
-  const handleButtonPress = () => {
-    // alert("Drodown value: ", value);
-    fetch(`${getBaseUrl()}/Teacher/enroll`, {
-      headers: { "content-type": "application/json" },
-      method: "POST",
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        mobile: mobile,
-        password: password,
-        category: category,
-      }),
-    }).catch((err) => {
-      setErrText(err?.message ?? "Something went wrong");
-    });
-  };
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -73,6 +63,7 @@ const Register = ({ navigation }) => {
         >
           <Image source={LoginSVG} width={400} height={200} />
         </View>
+        {/* <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}> */}
         <View style={{ flex: 1, paddingTop: 20 }}>
           <View style={{ alignItems: "center" }}>
             <Text
@@ -86,26 +77,11 @@ const Register = ({ navigation }) => {
               Registration Screen
             </Text>
           </View>
-          <InputField label={"Full Name"} onChangeText={setName} value={name} />
-          <InputField
-            label={"Email ID"}
-            keyboardType="email-address"
-            onChangeText={setEmail}
-            value={email}
-          />
-          <InputField
-            label={"Mobile"}
-            keyboardType="Mobile"
-            onChangeText={setMobile}
-            value={email}
-          />
 
           <InputField
-            label={"Password"}
-            inputType="password"
-            fieldButtonFunction={() => {}}
-            onChangeText={setPassword}
-            value={password}
+            label={"First Name"}
+            onChangeText={setText}
+            value={text}
           />
           <Dropdown
             style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
@@ -120,23 +96,22 @@ const Register = ({ navigation }) => {
             valueField="value"
             placeholder={!isFocus ? "Select item" : "..."}
             searchPlaceholder="Search..."
-            value={category}
+            value={value}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item) => {
-              setCategory(item.value);
+              setValue(item.value);
               setIsFocus(false);
             }}
           />
-          <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
+          <View style={{ flex: 1, alignItems: "center", padding: 20 }}>
             <CustomButton
               label={"Register"}
-              onPress={handleButtonPress}
-              // onPress={() =>
-              //   Alert.alert("Alert me", `dropdown value is ${category}`, [
-              //     { text: "OK", onPress: () => {} },
-              //   ])
-              // }
+              onPress={() =>
+                Alert.alert("Alert me", `dropdown value is ${value}`, [
+                  { text: "OK", onPress: () => {} },
+                ])
+              }
             />
           </View>
         </View>
@@ -156,8 +131,8 @@ const Register = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-export default Register;
 
+export default Register;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
@@ -165,8 +140,9 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 50,
-    borderColor: "#ccc",
-    borderBottomWidth: 1,
+    borderColor: "gray",
+    borderWidth: 0.5,
+    borderRadius: 8,
     paddingHorizontal: 8,
   },
   icon: {
@@ -182,12 +158,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   placeholderStyle: {
-    fontSize: 14,
-    color: "#5A5A5A",
+    fontSize: 16,
   },
   selectedTextStyle: {
-    fontSize: 14,
-    color: "#5A5A5A",
+    fontSize: 16,
   },
   iconStyle: {
     width: 20,
