@@ -29,10 +29,10 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [errText, setErrText] = useState(null);
   const data = [
-    { label: "Teacher", value: "1" },
-    { label: "Student", value: "2" },
+    { label: "Teacher", value: "teacher" },
+    { label: "Student", value: "student" },
   ];
-  const [category, setCategory] = useState(null);
+  const [userType, setUserType] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const renderLabel = () => {
     if (value || isFocus) {
@@ -45,9 +45,8 @@ const Register = ({ navigation }) => {
     return null;
   };
 
-  const handleButtonPress = () => {
-    // alert("Drodown value: ", value);
-    fetch(`${getBaseUrl()}/Teacher/enroll`, {
+  const handleButtonPress = async () => {
+    await fetch(`${getBaseUrl()}/Teacher/enroll`, {
       headers: { "content-type": "application/json" },
       method: "POST",
       body: JSON.stringify({
@@ -55,7 +54,7 @@ const Register = ({ navigation }) => {
         email: email,
         mobile: mobile,
         password: password,
-        category: category,
+        userType: userType,
       }),
     }).catch((err) => {
       setErrText(err?.message ?? "Something went wrong");
@@ -97,7 +96,7 @@ const Register = ({ navigation }) => {
             label={"Mobile"}
             keyboardType="Mobile"
             onChangeText={setMobile}
-            value={email}
+            value={mobile}
           />
 
           <InputField
@@ -120,11 +119,11 @@ const Register = ({ navigation }) => {
             valueField="value"
             placeholder={!isFocus ? "Select item" : "..."}
             searchPlaceholder="Search..."
-            value={category}
+            value={userType}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item) => {
-              setCategory(item.value);
+              setUserType(item.value);
               setIsFocus(false);
             }}
           />

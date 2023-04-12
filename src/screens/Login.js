@@ -9,6 +9,7 @@ import {
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
+import Verification from "./Verification";
 const Login = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   return (
