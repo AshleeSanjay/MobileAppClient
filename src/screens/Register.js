@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Auth, SignUpParams } from 'aws-amplify';
+import { Auth, SignUpParams } from "aws-amplify";
 
 import {
   View,
@@ -48,40 +48,52 @@ const Register = ({ navigation }) => {
   };
 
   const handleButtonPress = async () => {
-
     const userSub = await Auth.signUp({
       username: email,
       password: password,
       attributes: {
-        'email': email,          // optional
-        'custom:role': userType,   // optional - E.164 number convention
-        // other custom attributes 
+        email: email, // optional
+        "custom:role": userType, // optional - E.164 number convention
+        // other custom attributes
       },
-      autoSignIn: { // optional - enables auto sign in after user is confirmed
+      autoSignIn: {
+        // optional - enables auto sign in after user is confirmed
         enabled: true,
-      }
-    }).then((data) => {
-      return data.userSub;
-    }).catch((err) => {
-      alert(`${err}`);
-    });
-    
-    await fetch(`${getBaseUrl()}/Teacher/enroll`, {
-      headers: { "content-type": "application/json" },
-      method: "POST",
-      body: JSON.stringify({
-        name: name,
-        cognitoId: userSub,
-        email: email,
-        mobile: mobile,
-        password: password,
-        userType: userType,
-      }),
-    }).catch((err) => {
-      setErrText(err?.message ?? "Something went wrong");
-    });
-
-    navigation.navigate("Verification",{email:email}) ;
+      },
+    })
+      .then((data) => {
+        navigation.navigate("Verification", { email: email });
+        return data.userSub;
+      })
+      .catch((err) => {
+        Alert.alert("Alert me", `${err}`, [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+            },
+          },
+        ]);
+      });
+    console.log("Starting Enroll", `${getBaseUrl()}/Teacher/enroll`);
+    // await fetch(`${getBaseUrl()}/Teacher/enroll`, {
+    //   headers: { "content-type": "application/json" },
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     name: name,
+    //     cognitoId: userSub,
+    //     email: email,
+    //     mobile: mobile,
+    //     password: password,
+    //     userType: userType,
+    //   }),
+    // })
+    //   .then(() => {
+    //     console.log("DB Connected");
+    //   })
+    //   .catch((err) => {
+    //     setErrText(err?.message ?? "Something went wrong");
+    //   });
   };
 
   return (
@@ -117,7 +129,7 @@ const Register = ({ navigation }) => {
           />
           <InputField
             label={"Mobile"}
-            keyboardType="Mobile"
+            keyboardType="mobile"
             onChangeText={setMobile}
             value={mobile}
           />
@@ -125,7 +137,7 @@ const Register = ({ navigation }) => {
           <InputField
             label={"Password"}
             inputType="password"
-            fieldButtonFunction={() => { }}
+            fieldButtonFunction={() => {}}
             onChangeText={setPassword}
             value={password}
           />
@@ -154,11 +166,11 @@ const Register = ({ navigation }) => {
             <CustomButton
               label={"Register"}
               onPress={handleButtonPress}
-            // onPress={() =>
-            //   Alert.alert("Alert me", `dropdown value is ${category}`, [
-            //     { text: "OK", onPress: () => {} },
-            //   ])
-            // }
+              // onPress={() =>
+              //   Alert.alert("Alert me", `dropdown value is ${category}`, [
+              //     { text: "OK", onPress: () => {} },
+              //   ])
+              // }
             />
           </View>
         </View>
