@@ -10,11 +10,11 @@ export const getBaseUrl = () => {
    * baseUrl to your production API URL.
    */
 
-  const localhost = Constants.manifest?.debuggerHost?.split(":")[0];
-  if (!localhost) {
-    throw new Error("put your URL here");
+  //const localhost = Constants.manifest?.debuggerHost?.split(":")[0];
+  //if (!localhost) {
+  //  throw new Error("put your URL here");
     // return "your API URL in production";
-  }
+  //}
 
-  return `http://${localhost}:3000`;
+  return `http://localhost:8081`;
 };

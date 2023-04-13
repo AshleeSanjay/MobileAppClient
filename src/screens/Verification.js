@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import InputField from "../components/InputField.js";
@@ -10,8 +10,17 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-const Verification = ({ navigation }) => {
+import { Auth } from 'aws-amplify';
+
+
+const Verification = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
+  const [code, setCode] = useState("");
+
+  const confirmSignUp = async function (email){
+    const result = await Auth.confirmSignUp(email, code);
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -37,8 +46,11 @@ const Verification = ({ navigation }) => {
         <InputField
           label={"Verification Code"}
           keyboardType="verification-code"
+          onChangeText={setCode}
         />
-        <CustomButton label={"Verify"} onPress={() => {}} />
+        <CustomButton label={"Verify"} onPress={async () => {
+          await confirmSignUp(route.params.email);
+        }} />
       </View>
     </SafeAreaView>
   );

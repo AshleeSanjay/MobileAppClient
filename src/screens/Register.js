@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Auth, SignUpParams } from 'aws-amplify';
+
 import {
   View,
   Text,
@@ -46,11 +48,30 @@ const Register = ({ navigation }) => {
   };
 
   const handleButtonPress = async () => {
+
+    const userSub = await Auth.signUp({
+      username: email,
+      password: password,
+      attributes: {
+        'email': email,          // optional
+        'custom:role': userType,   // optional - E.164 number convention
+        // other custom attributes 
+      },
+      autoSignIn: { // optional - enables auto sign in after user is confirmed
+        enabled: true,
+      }
+    }).then((data) => {
+      return data.userSub;
+    }).catch((err) => {
+      alert(`${err}`);
+    });
+    
     await fetch(`${getBaseUrl()}/Teacher/enroll`, {
       headers: { "content-type": "application/json" },
       method: "POST",
       body: JSON.stringify({
         name: name,
+        cognitoId: userSub,
         email: email,
         mobile: mobile,
         password: password,
@@ -59,6 +80,8 @@ const Register = ({ navigation }) => {
     }).catch((err) => {
       setErrText(err?.message ?? "Something went wrong");
     });
+
+    navigation.navigate("Verification",{email:email}) ;
   };
 
   return (
@@ -102,7 +125,7 @@ const Register = ({ navigation }) => {
           <InputField
             label={"Password"}
             inputType="password"
-            fieldButtonFunction={() => {}}
+            fieldButtonFunction={() => { }}
             onChangeText={setPassword}
             value={password}
           />
@@ -131,11 +154,11 @@ const Register = ({ navigation }) => {
             <CustomButton
               label={"Register"}
               onPress={handleButtonPress}
-              // onPress={() =>
-              //   Alert.alert("Alert me", `dropdown value is ${category}`, [
-              //     { text: "OK", onPress: () => {} },
-              //   ])
-              // }
+            // onPress={() =>
+            //   Alert.alert("Alert me", `dropdown value is ${category}`, [
+            //     { text: "OK", onPress: () => {} },
+            //   ])
+            // }
             />
           </View>
         </View>
