@@ -1,6 +1,6 @@
 import react, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
 import { Image } from "expo-image";
@@ -55,10 +55,24 @@ const Verification = ({ route, navigation }) => {
       }),
     })
       .then(() => {
-        console.log("DB Connected");
+        Alert.alert("Verification", "Successfully Verified!!!", [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+            },
+          },
+        ]);
       })
       .catch((err) => {
-        setErrText(err?.message ?? "Something went wrong");
+        Alert.alert("Warning", `${err}`, [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+            },
+          },
+        ]);
       });
   };
   return (

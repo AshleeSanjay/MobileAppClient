@@ -72,10 +72,11 @@ const Register = ({ navigation }) => {
           userType: userType,
           cognitoId: id,
         });
+
         return data.userSub;
       })
       .catch((err) => {
-        Alert.alert("Alert me", `${err}`, [
+        Alert.alert("Warning", `${err}`, [
           {
             text: "OK",
             onPress: () => {
