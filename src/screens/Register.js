@@ -63,7 +63,15 @@ const Register = ({ navigation }) => {
       },
     })
       .then((data) => {
-        navigation.navigate("Verification", { email: email });
+        var id = data.userSub;
+        console.log("userSub:", id);
+        navigation.navigate("Verification", {
+          name: name,
+          email: email,
+          mobile: mobile,
+          userType: userType,
+          cognitoId: id,
+        });
         return data.userSub;
       })
       .catch((err) => {
@@ -77,24 +85,6 @@ const Register = ({ navigation }) => {
         ]);
       });
     console.log("Starting Enroll", `${getBaseUrl()}/Teacher/enroll`);
-    // await fetch(`${getBaseUrl()}/Teacher/enroll`, {
-    //   headers: { "content-type": "application/json" },
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     name: name,
-    //     cognitoId: userSub,
-    //     email: email,
-    //     mobile: mobile,
-    //     password: password,
-    //     userType: userType,
-    //   }),
-    // })
-    //   .then(() => {
-    //     console.log("DB Connected");
-    //   })
-    //   .catch((err) => {
-    //     setErrText(err?.message ?? "Something went wrong");
-    //   });
   };
 
   return (
