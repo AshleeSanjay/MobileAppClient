@@ -10,17 +10,11 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { getBaseUrl } from "../utils";
-
 import { Auth } from "aws-amplify";
 
 const Verification = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
   const [code, setCode] = useState("");
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [mobile, setMobile] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [userType, setUserType] = useState(null);
   const [cognitoId, setcognitoId] = useState("");
 
   const confirmSignUp = async function (
@@ -30,7 +24,6 @@ const Verification = ({ route, navigation }) => {
     userType,
     cognitoId
   ) {
-    console.log("Cognito Id: ", cognitoId);
     verifyButtonPress(name, email, mobile, userType, cognitoId);
     const result = await Auth.confirmSignUp(email, code);
   };
@@ -41,7 +34,6 @@ const Verification = ({ route, navigation }) => {
     userType,
     cognitoId
   ) {
-    console.log("Verify Button", name, email, mobile, userType, cognitoId);
     await fetch(`${getBaseUrl()}/Teacher/enroll`, {
       headers: { "content-type": "application/json" },
       method: "POST",
@@ -50,19 +42,11 @@ const Verification = ({ route, navigation }) => {
         cognitoId: cognitoId,
         email: email,
         mobile: mobile,
-        // password: password,
         userType: userType,
       }),
     })
       .then(() => {
-        Alert.alert("Verification", "Successfully Verified!!!", [
-          {
-            text: "OK",
-            onPress: () => {
-              console.log("button pressed");
-            },
-          },
-        ]);
+        navigation.navigate("Home");
       })
       .catch((err) => {
         Alert.alert("Warning", `${err}`, [
@@ -102,23 +86,33 @@ const Verification = ({ route, navigation }) => {
           keyboardType="number-pad"
           onChangeText={setCode}
         />
-        <CustomButton
-          label={"Verify"}
-          onPress={async () => {
-            console.log("Verify: cognito id- ", route.params.cognitoId);
-            await confirmSignUp(
-              route.params.name,
-              route.params.email,
-              route.params.mobile,
-              route.params.userType,
-              route.params.cognitoId
-            );
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
           }}
-        />
-        <CustomButton
-          label={"Back"}
-          onPress={async () => navigation.navigate("Register")}
-        />
+        >
+          <View>
+            <CustomButton
+              label={"Verify"}
+              onPress={async () => {
+                await confirmSignUp(
+                  route.params.name,
+                  route.params.email,
+                  route.params.mobile,
+                  route.params.userType,
+                  route.params.cognitoId
+                );
+              }}
+            />
+          </View>
+          <View>
+            <CustomButton
+              label={"Back"}
+              onPress={async () => navigation.navigate("Register")}
+            />
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );

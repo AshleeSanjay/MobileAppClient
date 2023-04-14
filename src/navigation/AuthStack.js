@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
 import Verification from "../screens/Verification";
-import TeacherProfile from "../screens/TeacherProfile";
+import Home from "../screens/Home";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -22,7 +22,7 @@ const AuthStack = () => {
       {<Stack.Screen name="Login" component={Login} />}
       {<Stack.Screen name="Register" component={Register} />}
       {<Stack.Screen name="Verification" component={Verification} />}
-      {/* {<Stack.Screen name="TeacherProfile" component={TeacherProfile} />} */}
+      {/* {<Stack.Screen name="Home" component={Home} />} */}
     </Stack.Navigator>
   );
 };
