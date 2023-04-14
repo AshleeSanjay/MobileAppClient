@@ -11,7 +11,7 @@ import {
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
 import { Image } from "expo-image";
-import ProfileBak from "../assets/images/misc/profilebak.svg";
+const ProfileBak = require("../assets/images/misc/profilebak.png");
 import LoginSVG from "../assets/images/misc/login.svg";
 import {
   SafeAreaView,
@@ -25,32 +25,30 @@ const TeacherProfile = ({ navigation }) => {
       <View
         style={{
           paddingTop: insets.top,
-          alignItems: "center",
+          // alignItems: "center",
+          flex: 1,
         }}
       >
         <ImageBackground
           source={ProfileBak}
-          resizeMode="cover"
           style={{ flex: 1, justifyContent: "center" }}
-        />
-        <Text
-          style={{
-            //   fontFamily: "Roboto-Medium.ttf",
-            fontSize: 28,
-            fontWeight: "500",
-            color: "#333",
-            marginBottom: 30,
-          }}
         >
-          Teachers Name
-        </Text>
-      </View>
-      <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
-        <InputField
-          label={"Verification Code"}
-          keyboardType="verification-code"
-        />
-        <CustomButton label={"Verify"} onPress={() => {}} />
+          <Text
+            style={{
+              //   fontFamily: "Roboto-Medium.ttf",
+              fontSize: 28,
+              fontWeight: "500",
+              color: "#333",
+              marginBottom: 30,
+            }}
+          >
+            Teachers Name
+          </Text>
+          <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
+            <InputField label={"Verification Code"} keyboardType="number-pad" />
+            <CustomButton label={"Verify"} onPress={() => {}} />
+          </View>
+        </ImageBackground>
       </View>
     </SafeAreaView>
   );

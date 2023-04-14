@@ -10,16 +10,15 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-import { Auth } from 'aws-amplify';
-
+import { Auth } from "aws-amplify";
 
 const Verification = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
   const [code, setCode] = useState("");
 
-  const confirmSignUp = async function (email){
+  const confirmSignUp = async function (email) {
     const result = await Auth.confirmSignUp(email, code);
-  }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -48,9 +47,16 @@ const Verification = ({ route, navigation }) => {
           keyboardType="verification-code"
           onChangeText={setCode}
         />
-        <CustomButton label={"Verify"} onPress={async () => {
-          await confirmSignUp(route.params.email);
-        }} />
+        <CustomButton
+          label={"Verify"}
+          onPress={async () => {
+            await confirmSignUp(route.params.email);
+          }}
+        />
+        <CustomButton
+          label={"Back"}
+          onPress={async () => navigation.navigate("Register")}
+        />
       </View>
     </SafeAreaView>
   );

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   StyleSheet,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "expo-image";
 import LoginSVG from "../assets/images/misc/login.svg";
@@ -107,73 +108,79 @@ const Register = ({ navigation }) => {
         >
           <Image source={LoginSVG} width={400} height={200} />
         </View>
-        <View style={{ flex: 1, paddingTop: 20 }}>
-          <View style={{ alignItems: "center" }}>
-            <Text
-              style={{
-                fontSize: 28,
-                fontWeight: "500",
-                color: "#333",
-                marginBottom: 30,
-              }}
-            >
-              Registration Screen
-            </Text>
-          </View>
-          <InputField label={"Full Name"} onChangeText={setName} value={name} />
-          <InputField
-            label={"Email ID"}
-            keyboardType="email-address"
-            onChangeText={setEmail}
-            value={email}
-          />
-          <InputField
-            label={"Mobile"}
-            keyboardType="mobile"
-            onChangeText={setMobile}
-            value={mobile}
-          />
-
-          <InputField
-            label={"Password"}
-            inputType="password"
-            fieldButtonFunction={() => {}}
-            onChangeText={setPassword}
-            value={password}
-          />
-          <Dropdown
-            style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={data}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "Select item" : "..."}
-            searchPlaceholder="Search..."
-            value={userType}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setUserType(item.value);
-              setIsFocus(false);
-            }}
-          />
-          <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
-            <CustomButton
-              label={"Register"}
-              onPress={handleButtonPress}
-              // onPress={() =>
-              //   Alert.alert("Alert me", `dropdown value is ${category}`, [
-              //     { text: "OK", onPress: () => {} },
-              //   ])
-              // }
+        <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+          <View style={{ flex: 1, paddingTop: 20 }}>
+            <View style={{ alignItems: "center" }}>
+              <Text
+                style={{
+                  fontSize: 28,
+                  fontWeight: "500",
+                  color: "#333",
+                  marginBottom: 30,
+                }}
+              >
+                Registration Screen
+              </Text>
+            </View>
+            <InputField
+              label={"Full Name"}
+              onChangeText={setName}
+              value={name}
             />
+            <InputField
+              label={"Email ID"}
+              keyboardType="email-address"
+              onChangeText={setEmail}
+              value={email}
+            />
+            <InputField
+              label={"Mobile"}
+              keyboardType="phone-pad"
+              onChangeText={setMobile}
+              value={mobile}
+            />
+
+            <InputField
+              label={"Password"}
+              inputType="password"
+              fieldButtonFunction={() => {}}
+              onChangeText={setPassword}
+              value={password}
+            />
+            <Dropdown
+              style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={data}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "Select item" : "..."}
+              searchPlaceholder="Search..."
+              value={userType}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setUserType(item.value);
+                setIsFocus(false);
+              }}
+            />
+            <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
+              <CustomButton
+                label={"Register"}
+                onPress={handleButtonPress}
+                // onPress={() =>
+                //   Alert.alert("Alert me", `dropdown value is ${category}`, [
+                //     { text: "OK", onPress: () => {} },
+                //   ])
+                // }
+              />
+            </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
         <View
           style={{
             flexDirection: "row",
