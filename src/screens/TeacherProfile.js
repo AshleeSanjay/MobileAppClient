@@ -85,6 +85,18 @@ const TeacherProfile = ({ navigation, route }) => {
               {route.params?.data?.mobile}
             </Text>
           </View>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              Designation:
+            </Text>
+            <Text style={{ paddingLeft: 10, fontSize: 20 }}>
+              {route.params?.data?.userType}
+            </Text>
+          </View>
         </View>
       </View>
       <View>
