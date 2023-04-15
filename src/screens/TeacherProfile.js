@@ -18,7 +18,11 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-const TeacherProfile = ({ navigation }) => {
+const TeacherProfile = ({ navigation, route }) => {
+  console.log("profile page", route.params?.data);
+
+  console.log("email", route.params?.data?.email);
+
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -58,13 +62,10 @@ const TeacherProfile = ({ navigation }) => {
         </View>
 
         <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
-          <InputField label={"Verification Code"} keyboardType="number-pad" />
-          <CustomButton
-            label={"Back"}
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          />
+          <Text>name</Text>
+          <Text>{route.params?.data?.name}</Text>
+          <Text>email</Text>
+          <Text>{route.params?.data?.email}</Text>
         </View>
         {/* </ImageBackground> */}
       </View>

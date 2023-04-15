@@ -12,24 +12,26 @@ import {
 import { Button, NativeBaseProvider } from "native-base";
 import { getBaseUrl } from "../utils";
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState([]);
+  console.log("Verification Page - Emai: l", route.params?.email);
   const lnkProfile = async function (name) {
     console.log("Pressed Button Profile");
     showProfile();
   };
   const showProfile = async function () {
-    const url = `${getBaseUrl()}/Teacher/profile`;
+    const url = `${getBaseUrl()}/Teacher/profile?email=ashleeachu@gmail.com`;
     // useEffect(() => {
     fetch(url)
       .then((response) => response.json())
-      .then((json) => setData(json))
-      .then(() => {
+      .then((json) => {
+        setData(json);
         console.log(json);
-        navigation.navigate("TeacherProfile");
+        navigation.navigate("TeacherProfile", { data: json });
       })
       .catch((err) => {
+        console.log("Home.js err", err);
         Alert.alert("Warning", `${err}`, [
           {
             text: "OK",
