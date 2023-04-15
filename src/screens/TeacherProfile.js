@@ -19,6 +19,7 @@ import {
 } from "react-native-safe-area-context";
 
 const TeacherProfile = ({ navigation, route }) => {
+  const jsonData = route.params?.data;
   console.log("profile page", route.params?.data);
 
   console.log("email", route.params?.data?.email);
@@ -32,15 +33,7 @@ const TeacherProfile = ({ navigation, route }) => {
           flex: 1,
         }}
       >
-        {/* <ImageBackground
-          // source={ProfileBak}
-          style={{
-            flex: 1,
-            height: 100,
-            width: 500,
-          }}
-        > */}
-        <View style={{ paddingLeft: 120 }}>
+        <View style={{ paddingLeft: 130 }}>
           <Image
             source={LoginSVG}
             width={150}
@@ -61,13 +54,48 @@ const TeacherProfile = ({ navigation, route }) => {
           </Text>
         </View>
 
-        <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
-          <Text>name</Text>
-          <Text>{route.params?.data?.name}</Text>
-          <Text>email</Text>
-          <Text>{route.params?.data?.email}</Text>
+        <View style={{ flex: 1, paddingLeft: 20 }}>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Name:</Text>
+            <Text style={{ paddingLeft: 10, fontSize: 20 }}>
+              {route.params?.data?.name}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Email:</Text>
+            <Text style={{ paddingLeft: 10, fontSize: 20 }}>
+              {route.params?.data?.email}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Mobile:</Text>
+            <Text style={{ paddingLeft: 10, fontSize: 20 }}>
+              {route.params?.data?.mobile}
+            </Text>
+          </View>
         </View>
-        {/* </ImageBackground> */}
+      </View>
+      <View>
+        <View style={{ padding: 20 }}>
+          <CustomButton
+            label={"Back"}
+            onPress={async () =>
+              navigation.navigate("Home", { jsonData: jsonData })
+            }
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

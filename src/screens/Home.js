@@ -15,13 +15,18 @@ import { getBaseUrl } from "../utils";
 const Home = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState([]);
-  console.log("Verification Page - Email: ", route.params?.email);
+  const profileJsonData = route.params?.jsonData;
+  const params = route.params?.email;
+  // console.log("Verification Page - Email: ", route.params?.email);
+  // console.log("Profile Page: ", route.params?.jsonData);
+
   const lnkProfile = async function (name) {
     console.log("Pressed Button Profile");
     showProfile();
   };
   const showProfile = async function () {
-    const url = `${getBaseUrl()}/Teacher/profile?email=ashleeachu@gmail.com`;
+    const url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
+    console.log("URL: ", url);
     // useEffect(() => {
     fetch(url)
       .then((response) => response.json())
