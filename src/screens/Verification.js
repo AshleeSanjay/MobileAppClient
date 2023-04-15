@@ -46,7 +46,7 @@ const Verification = ({ route, navigation }) => {
       }),
     })
       .then(() => {
-        navigation.navigate("Home");
+        navigation.navigate("Home", { email: email });
       })
       .catch((err) => {
         Alert.alert("Warning", `${err}`, [

@@ -12,10 +12,10 @@ import {
 import { Button, NativeBaseProvider } from "native-base";
 import { getBaseUrl } from "../utils";
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState([]);
-  // console.log("Verification Page - Emai: l", route.params?.email);
+  console.log("Verification Page - Email: ", route.params?.email);
   const lnkProfile = async function (name) {
     console.log("Pressed Button Profile");
     showProfile();
