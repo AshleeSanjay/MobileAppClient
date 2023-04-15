@@ -25,30 +25,48 @@ const TeacherProfile = ({ navigation }) => {
       <View
         style={{
           paddingTop: insets.top,
-          // alignItems: "center",
           flex: 1,
         }}
       >
-        <ImageBackground
-          source={ProfileBak}
-          style={{ flex: 1, justifyContent: "center" }}
-        >
+        {/* <ImageBackground
+          // source={ProfileBak}
+          style={{
+            flex: 1,
+            height: 100,
+            width: 500,
+          }}
+        > */}
+        <View style={{ paddingLeft: 120 }}>
+          <Image
+            source={LoginSVG}
+            width={150}
+            height={150}
+            style={{ borderRadius: 100 }}
+          />
+        </View>
+        <View style={{ alignItems: "center", paddingTop: 20 }}>
           <Text
             style={{
-              //   fontFamily: "Roboto-Medium.ttf",
               fontSize: 28,
               fontWeight: "500",
               color: "#333",
               marginBottom: 30,
             }}
           >
-            Teachers Name
+            Profile
           </Text>
-          <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
-            <InputField label={"Verification Code"} keyboardType="number-pad" />
-            <CustomButton label={"Verify"} onPress={() => {}} />
-          </View>
-        </ImageBackground>
+        </View>
+
+        <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
+          <InputField label={"Verification Code"} keyboardType="number-pad" />
+          <CustomButton
+            label={"Back"}
+            onPress={() => {
+              navigation.navigate("Home");
+            }}
+          />
+        </View>
+        {/* </ImageBackground> */}
       </View>
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import InputField from "../components/InputField.js";
@@ -10,9 +10,37 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
+import { getBaseUrl } from "../utils";
 
 const Home = ({ navigation }) => {
   const insets = useSafeAreaInsets();
+  const [data, setData] = useState([]);
+  const lnkProfile = async function (name) {
+    console.log("Pressed Button Profile");
+    showProfile();
+  };
+  const showProfile = async function () {
+    const url = `${getBaseUrl()}/Teacher/profile`;
+    // useEffect(() => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .then(() => {
+        console.log(json);
+        navigation.navigate("TeacherProfile");
+      })
+      .catch((err) => {
+        Alert.alert("Warning", `${err}`, [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+            },
+          },
+        ]);
+      });
+    // }, []);
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
@@ -39,8 +67,8 @@ const Home = ({ navigation }) => {
         <View style={{ flex: 1, gap: 10, alignItems: "flex-start" }}>
           <Button
             variant="link"
-            onPress={() => {
-              navigation.navigate("TeacherProfile");
+            onPress={async () => {
+              await lnkProfile();
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>Profile</Text>
