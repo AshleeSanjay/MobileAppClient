@@ -27,21 +27,32 @@ const Home = ({ navigation, route }) => {
   };
   const showProfile = async function () {
     var url = "";
-    if (params != null || params != undefined) {
-      console.log(params);
-      url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
+    if (route.params?.userType == "teacher") {
+      if (params != null || params != undefined) {
+        console.log(params);
+        url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
+      } else {
+        url = `${getBaseUrl()}/Teacher/profile?email=${profileEmail}`;
+      }
     } else {
-      url = `${getBaseUrl()}/Teacher/profile?email=${profileEmail}`;
+      if (params != null || params != undefined) {
+        console.log(params);
+        url = `${getBaseUrl()}/Student/profile?email=${params}`;
+      } else {
+        url = `${getBaseUrl()}/Student/profile?email=${profileEmail}`;
+      }
     }
 
     console.log("URL: ", url);
-    // useEffect(() => {
+
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
         setData(json);
         console.log(json);
-        navigation.navigate("TeacherProfile", { data: json });
+        if (route.params?.userType == "teacher")
+          navigation.navigate("TeacherProfile", { data: json });
+        else navigation.navigate("StudentProfile", { data: json });
       })
       .catch((err) => {
         console.log("Home.js err", err);
@@ -54,7 +65,6 @@ const Home = ({ navigation, route }) => {
           },
         ]);
       });
-    // }, []);
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>

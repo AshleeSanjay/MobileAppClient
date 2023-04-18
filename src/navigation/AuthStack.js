@@ -6,6 +6,7 @@ import Register from "../screens/Register";
 import Verification from "../screens/Verification";
 import Home from "../screens/Home";
 import TeacherProfile from "../screens/TeacherProfile";
+import StudentProfile from "../screens/StudentProfile";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -25,6 +26,7 @@ const AuthStack = () => {
       {<Stack.Screen name="Verification" component={Verification} />}
       {<Stack.Screen name="Home" component={Home} />}
       {<Stack.Screen name="TeacherProfile" component={TeacherProfile} />}
+      {<Stack.Screen name="StudentProfile" component={StudentProfile} />}
     </Stack.Navigator>
   );
 };
