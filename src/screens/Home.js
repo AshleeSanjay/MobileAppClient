@@ -11,6 +11,8 @@ import {
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
 import { getBaseUrl } from "../utils";
+import { Auth } from "aws-amplify";
+import Login from "./Login.js";
 
 const Home = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
@@ -20,9 +22,19 @@ const Home = ({ navigation, route }) => {
 
   // console.log("Verification Page - Email: ", route.params?.email);
   console.log("Profile Page: ", profileEmail);
+  const logoutButtonPress = async function () {
+    try {
+      console.log("Log out");
+      await Auth.signOut({ global: true });
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log("error signing out: ", error);
+    }
+  };
 
   const lnkProfile = async function (name) {
     console.log("Pressed Button Profile");
+    console.log("User Type: ", route.params?.userType);
     showProfile();
   };
   const showProfile = async function () {
@@ -49,7 +61,6 @@ const Home = ({ navigation, route }) => {
       .then((response) => response.json())
       .then((json) => {
         setData(json);
-        console.log(json);
         if (route.params?.userType == "teacher")
           navigation.navigate("TeacherProfile", { data: json });
         else navigation.navigate("StudentProfile", { data: json });
@@ -69,6 +80,11 @@ const Home = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
+        <View style={{ paddingLeft: 350, paddingTop: 10 }}>
+          <TouchableOpacity onPress={logoutButtonPress}>
+            <Text style={{ color: "#AD40AF", fontWeight: "700" }}>Logout</Text>
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             alignItems: "center",

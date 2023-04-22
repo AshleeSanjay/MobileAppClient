@@ -85,7 +85,7 @@ const Register = ({ navigation }) => {
           },
         ]);
       });
-    console.log("Starting Enroll", `${getBaseUrl()}/Teacher/enroll`);
+    // console.log("Starting Enroll", `${getBaseUrl()}/Teacher/enroll`);
   };
 
   return (

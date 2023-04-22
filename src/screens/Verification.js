@@ -16,6 +16,7 @@ const Verification = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
   const [code, setCode] = useState("");
   const [cognitoId, setcognitoId] = useState("");
+  var url = "";
 
   const confirmSignUp = async function (
     name,
@@ -24,7 +25,9 @@ const Verification = ({ route, navigation }) => {
     userType,
     cognitoId
   ) {
-    verifyButtonPress(name, email, mobile, userType, cognitoId);
+    if (userType == "teacher") url = `${getBaseUrl()}/Teacher/enroll`;
+    else url = `${getBaseUrl()}/Student/enroll`;
+    verifyButtonPress(name, email, mobile, userType, cognitoId, url);
     const result = await Auth.confirmSignUp(email, code);
   };
   const verifyButtonPress = async function (
@@ -32,9 +35,11 @@ const Verification = ({ route, navigation }) => {
     email,
     mobile,
     userType,
-    cognitoId
+    cognitoId,
+    url
   ) {
-    await fetch(`${getBaseUrl()}/Teacher/enroll`, {
+    console.log("URL: ", url);
+    await fetch(url, {
       headers: { "content-type": "application/json" },
       method: "POST",
       body: JSON.stringify({
@@ -46,7 +51,8 @@ const Verification = ({ route, navigation }) => {
       }),
     })
       .then(() => {
-        navigation.navigate("Home", { email: email });
+        // navigation.navigate("Home", { email: email, userType: userType });
+        navigation.navigate("Login");
       })
       .catch((err) => {
         Alert.alert("Warning", `${err}`, [
