@@ -47,7 +47,11 @@ const Register = ({ navigation }) => {
     }
     return null;
   };
-
+  setName("");
+  setEmail("");
+  setMobile("");
+  setPassword("");
+  setUserType("");
   const handleButtonPress = async () => {
     const userSub = await Auth.signUp({
       username: email,

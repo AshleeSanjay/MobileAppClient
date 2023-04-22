@@ -26,6 +26,7 @@ const Login = ({ navigation }) => {
   const [userType, setUserType] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   var url;
+
   const renderLabel = () => {
     if (value || isFocus) {
       return (
@@ -54,11 +55,16 @@ const Login = ({ navigation }) => {
           },
         ]);
       } else {
+        setEmail("");
+        setPassword("");
+        setUserType("");
         console.log("Login");
         const userDetails = await Auth.signIn(email, password);
         // console.log("User Details: ", userDetails);
         const { signInUserSession } = userDetails;
         const { idToken } = signInUserSession;
+        const { accessToken } = signInUserSession;
+        const { refreshToken } = signInUserSession;
         // console.log(idToken);
         if (userType == "teacher") {
           url = `${getBaseUrl()}/Teacher/profile`;
@@ -74,13 +80,14 @@ const Login = ({ navigation }) => {
             Authorization: `Bearer ${idToken.jwtToken}`,
           },
         })
+          // .then((resp) => resp.json())
           .then((resp) => {
             navigation.navigate("Home", {
               userType: userType,
               email: email,
               // cognitoId: id,
             });
-            // console.log("Response Body: ", resp.body);
+            // console.log("Response Body: ", resp);
           })
           .catch((err) => {
             console.log(err);
