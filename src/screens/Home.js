@@ -19,8 +19,9 @@ const Home = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const profileEmail = route.params?.jsonData?.email;
   const params = route.params?.email;
+  var url = "";
+  var userRole = "";
 
-  // console.log("Verification Page - Email: ", route.params?.email);
   console.log("Profile Page: ", profileEmail);
   const logoutButtonPress = async function () {
     try {
@@ -33,22 +34,30 @@ const Home = ({ navigation, route }) => {
   };
 
   const lnkProfile = async function (name) {
-    console.log("Pressed Button Profile");
-    console.log("User Type: ", route.params?.userType);
     showProfile();
   };
   const showProfile = async function () {
-    var url = "";
-    if (route.params?.userType == "teacher") {
+    if (route.params?.userType != null || route.params?.userType != undefined) {
+      console.log("User Role: ", route.params?.userType);
+      userRole = route.params?.userType;
+    } else if (
+      route.params?.jsonData?.userType != null ||
+      route.params?.jsonData?.userType != undefined
+    ) {
+      console.log("User Role: ", route.params?.jsonData?.userType);
+      userRole = route.params?.jsonData?.userType;
+    }
+    url = "";
+    if (userRole == "teacher") {
       if (params != null || params != undefined) {
-        console.log(params);
+        console.log("TeacherRole: ", params);
         url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
       } else {
         url = `${getBaseUrl()}/Teacher/profile?email=${profileEmail}`;
       }
-    } else {
+    } else if (userRole == "student") {
       if (params != null || params != undefined) {
-        console.log(params);
+        console.log("Student Role: ", params);
         url = `${getBaseUrl()}/Student/profile?email=${params}`;
       } else {
         url = `${getBaseUrl()}/Student/profile?email=${profileEmail}`;
@@ -61,9 +70,13 @@ const Home = ({ navigation, route }) => {
       .then((response) => response.json())
       .then((json) => {
         setData(json);
-        if (route.params?.userType == "teacher")
+        if (userRole == "teacher") {
+          console.log("Teacher Profile");
           navigation.navigate("TeacherProfile", { data: json });
-        else navigation.navigate("StudentProfile", { data: json });
+        } else if (userRole == "student") {
+          console.log("Student Profile", userRole);
+          navigation.navigate("StudentProfile", { data: json });
+        }
       })
       .catch((err) => {
         console.log("Home.js err", err);
@@ -100,6 +113,7 @@ const Home = ({ navigation, route }) => {
               fontWeight: "500",
               color: "#333",
               marginBottom: 30,
+              paddingTop: 50,
             }}
           >
             Home

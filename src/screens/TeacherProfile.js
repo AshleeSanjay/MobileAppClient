@@ -33,41 +33,59 @@ const TeacherProfile = ({ navigation, route }) => {
           flex: 1,
         }}
       >
-        <View style={{ paddingLeft: 130 }}>
-          <Image
-            source={LoginSVG}
-            width={150}
-            height={150}
-            style={{ borderRadius: 100 }}
-          />
-        </View>
-        <View style={{ alignItems: "center", paddingTop: 20 }}>
-          <Text
+        <View>
+          {/* <View style={{ alignItems: "center", paddingTop: 20 }}></View> */}
+          <View
             style={{
-              fontSize: 28,
-              fontWeight: "500",
-              color: "#333",
-              marginBottom: 30,
+              paddingLeft: 130,
+              backgroundColor: "#AD40AF",
+              paddingTop: 60,
+              height: 250,
             }}
           >
-            Profile
-          </Text>
+            <Text
+              style={{
+                fontSize: 28,
+                fontWeight: "500",
+                color: "#fff",
+                marginBottom: 50,
+                alignItems: "center",
+                paddingLeft: 35,
+              }}
+            >
+              Profile
+            </Text>
+            <Image
+              source={LoginSVG}
+              width={150}
+              height={150}
+              style={{
+                borderRadius: 100,
+                border: "4px solid #FFFFFF",
+              }}
+            />
+          </View>
         </View>
-
         <View style={{ flex: 1, paddingLeft: 20 }}>
           <View
             style={{
-              flexDirection: "row",
+              alignItems: "center",
             }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Name:</Text>
-            <Text style={{ paddingLeft: 10, fontSize: 20 }}>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 30,
+                paddingTop: 50,
+              }}
+            >
               {route.params?.data?.name}
             </Text>
           </View>
           <View
             style={{
               flexDirection: "row",
+              paddingTop: 50,
             }}
           >
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>Email:</Text>
@@ -78,6 +96,7 @@ const TeacherProfile = ({ navigation, route }) => {
           <View
             style={{
               flexDirection: "row",
+              paddingTop: 20,
             }}
           >
             <Text style={{ fontWeight: "bold", fontSize: 20 }}>Mobile:</Text>
@@ -87,6 +106,7 @@ const TeacherProfile = ({ navigation, route }) => {
           </View>
           <View
             style={{
+              paddingTop: 20,
               flexDirection: "row",
             }}
           >
