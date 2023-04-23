@@ -12,7 +12,7 @@ import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
 import { Image } from "expo-image";
 const ProfileBak = require("../assets/images/misc/profilebak.png");
-import LoginSVG from "../assets/images/misc/login.svg";
+import LoginSVG from "../assets/images/misc/teacherImage.png";
 import {
   SafeAreaView,
   useSafeAreaInsets,
