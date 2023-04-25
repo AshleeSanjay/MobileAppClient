@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "expo-image";
-import LoginSVG from "../assets/images/misc/login.svg";
+import LoginSVG from "../assets/images/misc/login.png";
 
 import {
   SafeAreaView,
@@ -47,11 +47,7 @@ const Register = ({ navigation }) => {
     }
     return null;
   };
-  setName("");
-  setEmail("");
-  setMobile("");
-  setPassword("");
-  setUserType("");
+
   const handleButtonPress = async () => {
     const userSub = await Auth.signUp({
       username: email,
@@ -76,7 +72,10 @@ const Register = ({ navigation }) => {
           userType: userType,
           cognitoId: id,
         });
-
+        setEmail("");
+        setName("");
+        setMobile("");
+        setPassword("");
         return data.userSub;
       })
       .catch((err) => {
@@ -185,7 +184,7 @@ const Register = ({ navigation }) => {
         >
           <Text style={{ marginRight: 2 }}>Back to</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "#AD40AF", fontWeight: "700" }}>Login</Text>
+            <Text style={{ color: "#30CC94", fontWeight: "700" }}>Login</Text>
           </TouchableOpacity>
         </View>
       </View>

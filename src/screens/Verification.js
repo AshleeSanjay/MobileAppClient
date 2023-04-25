@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
 import { Image } from "expo-image";
-import LoginSVG from "../assets/images/misc/login.svg";
+import LoginSVG from "../assets/images/misc/login.png";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -112,12 +112,12 @@ const Verification = ({ route, navigation }) => {
               }}
             />
           </View>
-          <View>
+          {/* <View>
             <CustomButton
               label={"Back"}
               onPress={async () => navigation.navigate("Register")}
             />
-          </View>
+          </View> */}
         </View>
       </View>
     </SafeAreaView>

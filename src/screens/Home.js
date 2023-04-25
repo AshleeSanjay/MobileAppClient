@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
 import { Image } from "expo-image";
-import LoginSVG from "../assets/images/misc/login.svg";
+import LoginSVG from "../assets/images/misc/login.png";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -95,7 +95,7 @@ const Home = ({ navigation, route }) => {
       <NativeBaseProvider>
         <View style={{ paddingLeft: 350, paddingTop: 10 }}>
           <TouchableOpacity onPress={logoutButtonPress}>
-            <Text style={{ color: "#AD40AF", fontWeight: "700" }}>Logout</Text>
+            <Text style={{ color: "#30CC94", fontWeight: "700" }}>Logout</Text>
           </TouchableOpacity>
         </View>
         <View

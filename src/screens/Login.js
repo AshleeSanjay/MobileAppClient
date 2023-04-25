@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Image } from "expo-image";
-import LoginSVG from "../assets/images/misc/login.svg";
+import LoginSVG from "../assets/images/misc/login.png";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -176,7 +176,7 @@ const Login = ({ navigation }) => {
         >
           <Text style={{ marginRight: 2 }}>New to the app?</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={{ color: "#AD40AF", fontWeight: "700" }}>
+            <Text style={{ color: "#30CC94", fontWeight: "700" }}>
               Register
             </Text>
           </TouchableOpacity>

@@ -38,7 +38,7 @@ const TeacherProfile = ({ navigation, route }) => {
           <View
             style={{
               paddingLeft: 130,
-              backgroundColor: "#AD40AF",
+              backgroundColor: "#30CC94",
               paddingTop: 60,
               height: 250,
             }}
