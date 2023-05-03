@@ -22,7 +22,7 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import { getBaseUrl } from "../utils";
-import { Dropdown } from "react-native-element-dropdown";
+// import { Dropdown } from "react-native-element-dropdown";
 
 const Register = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -35,7 +35,7 @@ const Register = ({ navigation }) => {
     { label: "Teacher", value: "teacher" },
     { label: "Student", value: "student" },
   ];
-  const [userType, setUserType] = useState(null);
+  const [userType, setUserType] = useState("teacher"); // FIX THIS!!!
   const [isFocus, setIsFocus] = useState(false);
   const renderLabel = () => {
     if (value || isFocus) {
@@ -141,7 +141,7 @@ const Register = ({ navigation }) => {
               onChangeText={setPassword}
               value={password}
             />
-            <Dropdown
+            {/* <Dropdown
               style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
@@ -161,7 +161,7 @@ const Register = ({ navigation }) => {
                 setUserType(item.value);
                 setIsFocus(false);
               }}
-            />
+            /> */}
             <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
               <CustomButton
                 label={"Register"}

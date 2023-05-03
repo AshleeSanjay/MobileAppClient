@@ -18,7 +18,7 @@ import CustomButton from "../components/CustomButton";
 import Verification from "./Verification";
 import { Auth } from "aws-amplify";
 import { getBaseUrl } from "../utils";
-import { Dropdown } from "react-native-element-dropdown";
+// import { Dropdown } from "react-native-element-dropdown";
 import jwtDecode from "jwt-decode";
 
 const Login = ({ navigation }) => {
@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
     { label: "Teacher", value: "teacher" },
     { label: "Student", value: "student" },
   ];
-  const [userType, setUserType] = useState(null);
+  const [userType, setUserType] = useState("teacher"); // FIX THIS WITH THE DROPDOWN
   const [isFocus, setIsFocus] = useState(false);
   var url;
 
@@ -103,6 +103,7 @@ const Login = ({ navigation }) => {
       console.log("error signing in", error);
     }
   };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -142,7 +143,7 @@ const Login = ({ navigation }) => {
             onChangeText={setPassword}
             value={password}
           />
-          <Dropdown
+          {/* <Dropdown
             style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -162,7 +163,7 @@ const Login = ({ navigation }) => {
               setUserType(item.value);
               setIsFocus(false);
             }}
-          />
+          /> */}
           <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
             <CustomButton label={"Login"} onPress={loginButtonPress} />
           </View>
