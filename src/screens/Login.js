@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Alert,
+  Platform,
 } from "react-native";
 import { Image } from "expo-image";
 import LoginSVG from "../assets/images/misc/login.png";
@@ -18,30 +20,23 @@ import CustomButton from "../components/CustomButton";
 import Verification from "./Verification";
 import { Auth } from "aws-amplify";
 import { getBaseUrl } from "../utils";
-// import { Dropdown } from "react-native-element-dropdown";
 import jwtDecode from "jwt-decode";
+import DropDownField from "../components/Dropdown";
 
 const Login = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const data = [
-    { label: "Teacher", value: "teacher" },
-    { label: "Student", value: "student" },
-  ];
-  const [userType, setUserType] = useState("teacher"); // FIX THIS WITH THE DROPDOWN
-  const [isFocus, setIsFocus] = useState(false);
+  const [userType, setUserType] = useState("");
   var url;
-
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Dropdown label
-        </Text>
-      );
+  const handleChange = (event) => {
+    if (Platform.OS === "web") {
+      console.log(event.target.value);
+      setUserType(event.target.value);
+    } else {
+      console.log(event.value);
+      setUserType(event.value);
     }
-    return null;
   };
 
   const loginButtonPress = async () => {
@@ -51,34 +46,30 @@ const Login = ({ navigation }) => {
           {
             text: "OK",
             onPress: () => {
-              // navigation.navigate("Home", {
-              //   userType: userType,
-              //   email: email,
-              //   // cognitoId: id,
-              // });
               console.log("button pressed");
             },
           },
         ]);
       } else {
+        console.log("Web-dropdown pressed!!");
         setEmail("");
         setPassword("");
         setUserType("");
         console.log("Login");
         const userDetails = await Auth.signIn(email, password);
-        // console.log("User Details: ", userDetails);
+        console.log("User Details: ", userDetails);
         const { signInUserSession } = userDetails;
         const { idToken } = signInUserSession;
         const { accessToken } = signInUserSession;
         const { refreshToken } = signInUserSession;
-        // console.log(idToken);
+        console.log(Platform.OS);
+
         if (userType == "teacher") {
           url = `${getBaseUrl()}/Teacher/profile`;
         } else if (userType == "student") {
           url = `${getBaseUrl()}/Student/profile`;
         }
         console.log("URL:", url);
-        // const idTokenDecoded = jwtDecode(idToken.jwtToken);
         console.log("Decoded token: ", jwtDecode(idToken.jwtToken));
         await fetch(url, {
           method: "GET",
@@ -86,14 +77,11 @@ const Login = ({ navigation }) => {
             Authorization: `Bearer ${idToken.jwtToken}`,
           },
         })
-          // .then((resp) => resp.json())
           .then((resp) => {
             navigation.navigate("Home", {
               userType: userType,
               email: email,
-              // cognitoId: id,
             });
-            // console.log("Response Body: ", resp);
           })
           .catch((err) => {
             console.log(err);
@@ -119,7 +107,6 @@ const Login = ({ navigation }) => {
           <View style={{ alignItems: "center" }}>
             <Text
               style={{
-                //   fontFamily: "Roboto-Medium.ttf",
                 fontSize: 28,
                 fontWeight: "500",
                 color: "#333",
@@ -138,32 +125,13 @@ const Login = ({ navigation }) => {
           <InputField
             label={"Password"}
             inputType="password"
-            // fieldButtonLabel={"Forgot?"}
             fieldButtonFunction={() => {}}
             onChangeText={setPassword}
             value={password}
           />
-          {/* <Dropdown
-            style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={data}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "Select item" : "..."}
-            searchPlaceholder="Search..."
-            value={userType}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setUserType(item.value);
-              setIsFocus(false);
-            }}
-          /> */}
+          <View>
+            <DropDownField value={userType} onChange={handleChange} />
+          </View>
           <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
             <CustomButton label={"Login"} onPress={loginButtonPress} />
           </View>
@@ -210,21 +178,5 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
-  },
-  placeholderStyle: {
-    fontSize: 14,
-    color: "#5A5A5A",
-  },
-  selectedTextStyle: {
-    fontSize: 14,
-    color: "#5A5A5A",
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
   },
 });

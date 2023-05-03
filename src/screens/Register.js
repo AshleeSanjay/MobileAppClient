@@ -9,6 +9,7 @@ import {
   Alert,
   StyleSheet,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { Image } from "expo-image";
 import LoginSVG from "../assets/images/misc/login.png";
@@ -22,7 +23,7 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import { getBaseUrl } from "../utils";
-// import { Dropdown } from "react-native-element-dropdown";
+import DropDownField from "../components/Dropdown";
 
 const Register = ({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -31,23 +32,17 @@ const Register = ({ navigation }) => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [errText, setErrText] = useState(null);
-  const data = [
-    { label: "Teacher", value: "teacher" },
-    { label: "Student", value: "student" },
-  ];
-  const [userType, setUserType] = useState("teacher"); // FIX THIS!!!
-  const [isFocus, setIsFocus] = useState(false);
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Dropdown label
-        </Text>
-      );
-    }
-    return null;
-  };
+  const [userType, setUserType] = useState("");
 
+  const handleChange = (event) => {
+    if (Platform.OS === "web") {
+      console.log(event.target.value);
+      setUserType(event.target.value);
+    } else {
+      console.log(event.value);
+      setUserType(event.value);
+    }
+  };
   const handleButtonPress = async () => {
     const userSub = await Auth.signUp({
       username: email,
@@ -88,7 +83,6 @@ const Register = ({ navigation }) => {
           },
         ]);
       });
-    // console.log("Starting Enroll", `${getBaseUrl()}/Teacher/enroll`);
   };
 
   return (
@@ -133,7 +127,6 @@ const Register = ({ navigation }) => {
               onChangeText={setMobile}
               value={mobile}
             />
-
             <InputField
               label={"Password"}
               inputType="password"
@@ -141,37 +134,11 @@ const Register = ({ navigation }) => {
               onChangeText={setPassword}
               value={password}
             />
-            {/* <Dropdown
-              style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={data}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? "Select item" : "..."}
-              searchPlaceholder="Search..."
-              value={userType}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={(item) => {
-                setUserType(item.value);
-                setIsFocus(false);
-              }}
-            /> */}
+            <View>
+              <DropDownField value={userType} onChange={handleChange} />
+            </View>
             <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
-              <CustomButton
-                label={"Register"}
-                onPress={handleButtonPress}
-                // onPress={() =>
-                //   Alert.alert("Alert me", `dropdown value is ${category}`, [
-                //     { text: "OK", onPress: () => {} },
-                //   ])
-                // }
-              />
+              <CustomButton label={"Register"} onPress={handleButtonPress} />
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -215,21 +182,5 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
-  },
-  placeholderStyle: {
-    fontSize: 14,
-    color: "#5A5A5A",
-  },
-  selectedTextStyle: {
-    fontSize: 14,
-    color: "#5A5A5A",
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
   },
 });
