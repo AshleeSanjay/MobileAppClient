@@ -74,14 +74,18 @@ const Register = ({ navigation }) => {
         return data.userSub;
       })
       .catch((err) => {
-        Alert.alert("Warning", `${err}`, [
-          {
-            text: "OK",
-            onPress: () => {
-              console.log("button pressed");
+        if (Platform.OS === "web") {
+          alert(err);
+        } else {
+          Alert.alert("Warning", `${err}`, [
+            {
+              text: "OK",
+              onPress: () => {
+                console.log("button pressed");
+              },
             },
-          },
-        ]);
+          ]);
+        }
       });
   };
 
