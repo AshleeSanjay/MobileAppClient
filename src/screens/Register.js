@@ -98,7 +98,7 @@ const Register = ({ navigation }) => {
             paddingTop: insets.top,
           }}
         >
-          <Image source={LoginSVG} width={400} height={200} />
+          <Image source={LoginSVG} style={styles.image} />
         </View>
         <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
           <View style={{ flex: 1, paddingTop: 20 }}>
@@ -168,6 +168,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     padding: 16,
+  },
+  image: {
+    width: 400,
+    height: 200,
   },
   dropdown: {
     height: 50,

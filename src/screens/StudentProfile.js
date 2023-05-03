@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
+  Platform,
 } from "react-native";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton.js";
@@ -35,34 +36,13 @@ const StudentProfile = ({ navigation, route }) => {
       >
         <View>
           {/* <View style={{ alignItems: "center", paddingTop: 20 }}></View> */}
-          <View
-            style={{
-              paddingLeft: 130,
-              backgroundColor: "#30CC94",
-              paddingTop: 60,
-              height: 250,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 28,
-                fontWeight: "500",
-                color: "#fff",
-                marginBottom: 50,
-                alignItems: "center",
-                paddingLeft: 35,
-              }}
-            >
-              Profile
-            </Text>
+          <View style={styles.headerText}>
+            <Text style={styles.profileText}>Profile</Text>
             <Image
               source={LoginSVG}
-              width={150}
-              height={150}
-              style={{
-                borderRadius: 100,
-                border: "4px solid #FFFFFF",
-              }}
+              // width={150}
+              // height={150}
+              style={styles.image}
             />
           </View>
         </View>
@@ -137,10 +117,27 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
+  headerText: {
+    paddingLeft: Platform.OS === "web" ? 600 : 130,
+    backgroundColor: "#30CC94",
+    paddingTop: 60,
+    height: 250,
+  },
+  profileText: {
+    fontSize: 28,
+    fontWeight: "500",
+    color: "#fff",
+    marginBottom: 50,
+    alignItems: "center",
+    // paddingLeft: Platform.OS === "web" ? 500 : 35,
+  },
   image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
+    borderRadius: 100,
+    border: "4px solid #FFFFFF",
+    width: Platform.OS === "web" ? 100 : 150,
+    height: Platform.OS === "web" ? 500 : 150,
+
+    // display: Platform.OS === "web" ? "none" : "flex",
   },
   text: {
     color: "white",

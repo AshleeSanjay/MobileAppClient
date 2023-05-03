@@ -1,6 +1,14 @@
 import react, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+  Platform,
+} from "react-native";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
 import { Image } from "expo-image";
@@ -93,7 +101,7 @@ const Home = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
-        <View style={{ paddingLeft: 350, paddingTop: 10 }}>
+        <View style={styles.logOutText}>
           <TouchableOpacity onPress={logoutButtonPress}>
             <Text style={{ color: "#30CC94", fontWeight: "700" }}>Logout</Text>
           </TouchableOpacity>
@@ -104,7 +112,7 @@ const Home = ({ navigation, route }) => {
             paddingTop: insets.top,
           }}
         >
-          <Image source={LoginSVG} width={400} height={200} />
+          <Image source={LoginSVG} style={styles.image} />
         </View>
         <View style={{ alignItems: "center" }}>
           <Text
@@ -150,3 +158,14 @@ const Home = ({ navigation, route }) => {
   );
 };
 export default Home;
+
+const styles = StyleSheet.create({
+  logOutText: {
+    paddingLeft: Platform.OS === "web" ? 900 : 350,
+    paddingTop: 10,
+  },
+  image: {
+    width: 400,
+    height: 200,
+  },
+});

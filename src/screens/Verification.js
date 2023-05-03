@@ -1,6 +1,13 @@
 import react, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+} from "react-native";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
 import { Image } from "expo-image";
@@ -73,7 +80,7 @@ const Verification = ({ route, navigation }) => {
           paddingTop: insets.top,
         }}
       >
-        <Image source={LoginSVG} width={400} height={200} />
+        <Image source={LoginSVG} style={styles.image} />
       </View>
       <View style={{ flex: 1, alignItems: "center", paddingTop: 20 }}>
         <Text
@@ -125,3 +132,10 @@ const Verification = ({ route, navigation }) => {
 };
 
 export default Verification;
+
+const styles = StyleSheet.create({
+  image: {
+    width: 400,
+    height: 200,
+  },
+});

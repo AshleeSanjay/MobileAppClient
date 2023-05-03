@@ -101,7 +101,7 @@ const Login = ({ navigation }) => {
             paddingTop: insets.top,
           }}
         >
-          <Image source={LoginSVG} width={400} height={200} />
+          <Image source={LoginSVG} style={styles.image} />
         </View>
         <View style={{ flex: 1, paddingTop: 20 }}>
           <View style={{ alignItems: "center" }}>
@@ -160,6 +160,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     padding: 16,
+  },
+  image: {
+    width: 400,
+    height: 200,
   },
   dropdown: {
     height: 50,
