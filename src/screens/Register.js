@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   image: {
-    width: 400,
-    height: 200,
+    width: 300,
+    height: 100,
   },
   dropdown: {
     height: 50,
