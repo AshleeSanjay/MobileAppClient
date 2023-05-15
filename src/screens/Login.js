@@ -89,6 +89,14 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       console.log("error signing in", error);
+      Alert.alert("Warning", "Invalid credentials", [
+        {
+          text: "OK",
+          onPress: () => {
+            console.log("button pressed");
+          },
+        },
+      ]);
     }
   };
 
