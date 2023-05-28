@@ -51,7 +51,6 @@ const Login = ({ navigation }) => {
           },
         ]);
       } else {
-        console.log("Web-dropdown pressed!!");
         setEmail("");
         setPassword("");
         setUserType("");
@@ -69,8 +68,10 @@ const Login = ({ navigation }) => {
         } else if (userType == "student") {
           url = `${getBaseUrl()}/Student/profile`;
         }
+
         console.log("URL:", url);
         console.log("Decoded token: ", jwtDecode(idToken.jwtToken));
+
         await fetch(url, {
           method: "GET",
           headers: {

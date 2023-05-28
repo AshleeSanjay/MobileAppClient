@@ -7,26 +7,31 @@ import Verification from "../screens/Verification";
 import Home from "../screens/Home";
 import TeacherProfile from "../screens/TeacherProfile";
 import StudentProfile from "../screens/StudentProfile";
+import EditStudentProfile from "../screens/EditStudentProfile";
+import EditTeacherProfile from "../screens/EditTeacherProfile";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen
-        name="Demo"
-        component={() => (
-          <View style={{ paddingTop: 40, paddingHorizontal: 15 }}>
-            <Text>Demo</Text>
-          </View>
-        )}
-      /> */}
-      {/* <Stack.Screen name="Onboarding" component={OnboardingScreen} /> */}
-      {<Stack.Screen name="Login" component={Login} />}
+      {/* {<Stack.Screen name="Login" component={Login} />}
       {<Stack.Screen name="Register" component={Register} />}
       {<Stack.Screen name="Verification" component={Verification} />}
       {<Stack.Screen name="Home" component={Home} />}
       {<Stack.Screen name="TeacherProfile" component={TeacherProfile} />}
-      {<Stack.Screen name="StudentProfile" component={StudentProfile} />}
+      {<Stack.Screen name="StudentProfile" component={StudentProfile} />} */}
+      {/* {
+        <Stack.Screen
+          name="EditStudentProfile"
+          component={EditStudentProfile}
+        />
+      } */}
+      {
+        <Stack.Screen
+          name="EditTeacherProfile"
+          component={EditTeacherProfile}
+        />
+      }
     </Stack.Navigator>
   );
 };

@@ -147,7 +147,7 @@ const Home = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("TeacherProfile");
+              navigation.navigate("Course");
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>Assignments</Text>

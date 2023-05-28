@@ -18,20 +18,17 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import { getBaseUrl } from "../utils";
-import DropDownField from "../components/Dropdown";
 
-const Register = ({ navigation }) => {
+const EditTeacherProfile = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
-  const [errText, setErrText] = useState(null);
+
   const [userType, setUserType] = useState("");
 
   const handleChange = (event) => {
@@ -43,49 +40,28 @@ const Register = ({ navigation }) => {
       setUserType(event.value);
     }
   };
-  const handleButtonPress = async () => {
-    const userSub = await Auth.signUp({
-      username: email,
-      password: password,
-      attributes: {
-        email: email, // optional
-        "custom:role": userType, // optional - E.164 number convention
-        // other custom attributes
-      },
-      autoSignIn: {
-        // optional - enables auto sign in after user is confirmed
-        enabled: true,
-      },
+  const saveDetails = async function (name, mobile, url) {
+    console.log("URL: ", url);
+    await fetch(url, {
+      headers: { "content-type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({
+        name: name,
+        mobile: mobile,
+      }),
     })
-      .then((data) => {
-        var id = data.userSub;
-        console.log("userSub:", id);
-        navigation.navigate("Verification", {
-          name: name,
-          email: email,
-          mobile: mobile,
-          userType: userType,
-          cognitoId: id,
-        });
-        setEmail("");
-        setName("");
-        setMobile("");
-        setPassword("");
-        return data.userSub;
+      .then(() => {
+        navigation.navigate("TeacherProfile");
       })
       .catch((err) => {
-        if (Platform.OS === "web") {
-          alert(err);
-        } else {
-          Alert.alert("Warning", `${err}`, [
-            {
-              text: "OK",
-              onPress: () => {
-                console.log("button pressed");
-              },
+        Alert.alert("Warning", `${err}`, [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
             },
-          ]);
-        }
+          },
+        ]);
       });
   };
 
@@ -111,7 +87,7 @@ const Register = ({ navigation }) => {
                   marginBottom: 30,
                 }}
               >
-                Registration
+                Edit Teacher Profile
               </Text>
             </View>
             <InputField
@@ -119,30 +95,16 @@ const Register = ({ navigation }) => {
               onChangeText={setName}
               value={name}
             />
-            <InputField
-              label={"Email ID"}
-              keyboardType="email-address"
-              onChangeText={setEmail}
-              value={email}
-            />
+
             <InputField
               label={"Mobile"}
               keyboardType="phone-pad"
               onChangeText={setMobile}
               value={mobile}
             />
-            <InputField
-              label={"Password"}
-              inputType="password"
-              fieldButtonFunction={() => {}}
-              onChangeText={setPassword}
-              value={password}
-            />
-            <View>
-              <DropDownField value={userType} onChange={handleChange} />
-            </View>
+
             <View style={{ flex: 2, alignItems: "center", padding: 30 }}>
-              <CustomButton label={"Register"} onPress={handleButtonPress} />
+              <CustomButton label={"Submit"} onPress={saveDetails} />
             </View>
           </View>
         </KeyboardAvoidingView>
@@ -154,15 +116,19 @@ const Register = ({ navigation }) => {
           }}
         >
           <Text style={{ marginRight: 2 }}>Back to</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "#30CC94", fontWeight: "700" }}>Login</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("TeacherProfile")}
+          >
+            <Text style={{ color: "#30CC94", fontWeight: "700" }}>
+              TeacherProfile
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
 };
-export default Register;
+export default EditTeacherProfile;
 
 const styles = StyleSheet.create({
   container: {
