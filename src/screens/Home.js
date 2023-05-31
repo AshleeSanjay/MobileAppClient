@@ -139,7 +139,7 @@ const Home = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("TeacherProfile");
+              navigation.navigate("CourseList");
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>Courses</Text>
@@ -147,7 +147,7 @@ const Home = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("Course");
+              navigation.navigate("");
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>Assignments</Text>

@@ -14,10 +14,8 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton";
-import Verification from "./Verification";
 import { Auth } from "aws-amplify";
 import { getBaseUrl } from "../utils";
 import jwtDecode from "jwt-decode";

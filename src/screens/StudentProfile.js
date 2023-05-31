@@ -18,7 +18,14 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-
+const editStudentProfile = async function () {
+  try {
+    console.log("Edit Student Profile");
+    navigation.navigate("EditStudentProfile");
+  } catch (error) {
+    console.log("Error in editing student profile", error);
+  }
+};
 const StudentProfile = ({ navigation, route }) => {
   const jsonData = route.params?.data;
   console.log("profile page", route.params?.data);
@@ -28,6 +35,11 @@ const StudentProfile = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.logOutText}>
+        <TouchableOpacity onPress={editStudentProfile}>
+          <Text style={{ color: "#30CC94", fontWeight: "700" }}>Edit</Text>
+        </TouchableOpacity>
+      </View>
       <View
         style={{
           paddingTop: insets.top,
