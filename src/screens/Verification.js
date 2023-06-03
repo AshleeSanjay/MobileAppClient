@@ -22,7 +22,7 @@ import { Auth } from "aws-amplify";
 const Verification = ({ route, navigation }) => {
   const insets = useSafeAreaInsets();
   const [code, setCode] = useState("");
-  const [cognitoId, setcognitoId] = useState("");
+  const [uniqueId, setuniqueId] = useState("");
   var url = "";
 
   const confirmSignUp = async function (
@@ -30,11 +30,12 @@ const Verification = ({ route, navigation }) => {
     email,
     mobile,
     userType,
-    cognitoId
+    uniqueId
   ) {
     if (userType == "teacher") url = `${getBaseUrl()}/Teacher/enroll`;
     else url = `${getBaseUrl()}/Student/enroll`;
-    verifyButtonPress(name, email, mobile, userType, cognitoId, url);
+    console.log("Verification - Unique ID: ", uniqueId);
+    verifyButtonPress(name, email, mobile, userType, uniqueId, url);
     const result = await Auth.confirmSignUp(email, code);
   };
   const verifyButtonPress = async function (
@@ -42,35 +43,61 @@ const Verification = ({ route, navigation }) => {
     email,
     mobile,
     userType,
-    cognitoId,
+    uniqueId,
     url
   ) {
-    console.log("URL: ", url);
-    await fetch(url, {
-      headers: { "content-type": "application/json" },
-      method: "POST",
-      body: JSON.stringify({
-        name: name,
-        cognitoId: cognitoId,
-        email: email,
-        mobile: mobile,
-        userType: userType,
-      }),
-    })
-      .then(() => {
-        // navigation.navigate("Home", { email: email, userType: userType });
-        navigation.navigate("Login");
+    if (userType == "teacher") {
+      await fetch(url, {
+        headers: { "content-type": "application/json" },
+        method: "POST",
+        body: JSON.stringify({
+          name: name,
+          cognitoId: uniqueId,
+          email: email,
+          mobile: mobile,
+          userType: userType,
+        }),
       })
-      .catch((err) => {
-        Alert.alert("Warning", `${err}`, [
-          {
-            text: "OK",
-            onPress: () => {
-              console.log("button pressed");
+        .then(() => {
+          navigation.navigate("Login");
+        })
+        .catch((err) => {
+          Alert.alert("Warning", `${err}`, [
+            {
+              text: "OK",
+              onPress: () => {
+                console.log("button pressed");
+              },
             },
-          },
-        ]);
-      });
+          ]);
+        });
+    } else if (userType == "student") {
+      await fetch(url, {
+        headers: { "content-type": "application/json" },
+        method: "POST",
+        body: JSON.stringify({
+          name: name,
+          cognitoId: "",
+          cognitoSid: uniqueId,
+          email: email,
+          mobile: mobile,
+          userType: userType,
+        }),
+      })
+        .then(() => {
+          navigation.navigate("Login");
+        })
+        .catch((err) => {
+          Alert.alert("Warning", `${err}`, [
+            {
+              text: "OK",
+              onPress: () => {
+                console.log("button pressed");
+              },
+            },
+          ]);
+        });
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -119,12 +146,6 @@ const Verification = ({ route, navigation }) => {
               }}
             />
           </View>
-          {/* <View>
-            <CustomButton
-              label={"Back"}
-              onPress={async () => navigation.navigate("Register")}
-            />
-          </View> */}
         </View>
       </View>
     </SafeAreaView>

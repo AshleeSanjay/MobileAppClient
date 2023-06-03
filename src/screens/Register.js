@@ -59,7 +59,7 @@ const Register = ({ navigation }) => {
     })
       .then((data) => {
         var id = data.userSub;
-        console.log("userSub:", id);
+        console.log("userSub:", data);
         navigation.navigate("Verification", {
           name: name,
           email: email,

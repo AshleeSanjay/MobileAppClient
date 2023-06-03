@@ -26,6 +26,7 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
+  const [cognitoID, setCognitoId] = useState("");
   var url;
   const handleChange = (event) => {
     if (Platform.OS === "web") {
@@ -66,9 +67,10 @@ const Login = ({ navigation }) => {
         } else if (userType == "student") {
           url = `${getBaseUrl()}/Student/profile`;
         }
-
+        const token = jwtDecode(idToken.jwtToken);
         console.log("URL:", url);
-        console.log("Decoded token: ", jwtDecode(idToken.jwtToken));
+        console.log("Decoded token: ", token);
+        console.log("CognitoId: ", token.sub);
 
         await fetch(url, {
           method: "GET",
@@ -77,10 +79,19 @@ const Login = ({ navigation }) => {
           },
         })
           .then((resp) => {
-            navigation.navigate("Home", {
-              userType: userType,
-              email: email,
-            });
+            if (userType == "teacher") {
+              navigation.navigate("TeacherHome", {
+                userType: userType,
+                email: email,
+                cognitoID: token.sub,
+              });
+            } else if (userType == "student") {
+              navigation.navigate("StudentHome", {
+                userType: userType,
+                email: email,
+                cognitoID: token.sub,
+              });
+            }
           })
           .catch((err) => {
             console.log(err);

@@ -47,15 +47,9 @@ const StudentProfile = ({ navigation, route }) => {
         }}
       >
         <View>
-          {/* <View style={{ alignItems: "center", paddingTop: 20 }}></View> */}
           <View style={styles.headerText}>
             <Text style={styles.profileText}>Profile</Text>
-            <Image
-              source={LoginSVG}
-              // width={150}
-              // height={150}
-              style={styles.image}
-            />
+            <Image source={LoginSVG} style={styles.image} />
           </View>
         </View>
         <View style={{ flex: 1, paddingLeft: 20 }}>
@@ -116,7 +110,7 @@ const StudentProfile = ({ navigation, route }) => {
           <CustomButton
             label={"Back"}
             onPress={async () =>
-              navigation.navigate("Home", { jsonData: jsonData })
+              navigation.navigate("StudentHome", { jsonData: jsonData })
             }
           />
         </View>

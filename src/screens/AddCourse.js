@@ -25,11 +25,50 @@ import CustomButton from "../components/CustomButton";
 import { getBaseUrl } from "../utils";
 import DropDownField from "../components/Dropdown";
 
-const AddCourse = ({ navigation }) => {
+const AddCourse = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [courseName, setCourseName] = useState("");
   const [courseContent, setCourseContent] = useState("");
-  const saveCourse = async () => {};
+  var url = "";
+  const teacherId = route.params?.teacherId;
+  console.log("AddCourse, TeacherID: ", route.params?.teacherId);
+  const saveCourse = async () => {
+    url = `${getBaseUrl()}/Course/addCourse`;
+    await fetch(url, {
+      headers: { "content-type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({
+        cognitoSid: "",
+        cognitoId: route.params?.teacherId,
+        courseName: courseName,
+        courseContent: courseContent,
+        userType: "",
+        flag: "A",
+      }),
+    })
+      .then((resp) => {
+        Alert.alert("Alert", "Course Added Successfully", [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+              setCourseName("");
+              setCourseContent("");
+            },
+          },
+        ]);
+      })
+      .catch((err) => {
+        Alert.alert("Warning", `${err}`, [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+            },
+          },
+        ]);
+      });
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -79,7 +118,14 @@ const AddCourse = ({ navigation }) => {
           }}
         >
           <Text style={{ marginRight: 2 }}>Back to</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("CourseList")}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("TeacherCourseList", {
+                teacherId: route.params?.teacherId,
+                page: "AddCourse",
+              })
+            }
+          >
             <Text style={{ color: "#30CC94", fontWeight: "700" }}>
               Course List
             </Text>

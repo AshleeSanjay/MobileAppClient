@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   View,
@@ -14,6 +14,7 @@ import CustomButton from "../components/CustomButton.js";
 import { Image } from "expo-image";
 const ProfileBak = require("../assets/images/misc/profilebak.png");
 import LoginSVG from "../assets/images/misc/studentImg.jpg";
+import { getBaseUrl } from "../utils";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -30,9 +31,24 @@ const courses = [
     name: "Course 2",
   },
 ];
-const CourseList = ({ navigation, route }) => {
+const EnrolledCourses = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
+  const [courses, setCourses] = useState([]);
   const [courseId, setCourseId] = useState("");
+  console.log("CourseList, ID: ", route.params?.id);
+  const studentId = route.params?.id;
+  // const studentIdAddCourse = route.params?.studentId;
+
+  console.log("Enrolled Courses: ", route.params?.studentId);
+  var url = `${getBaseUrl()}/Course/viewEnrolledCourseList?cognitoSid=${studentId}`;
+  console.log("URL: ", url);
+  useEffect(() => {
+    fetch(url, {
+      headers: { "content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => setCourses(data));
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
@@ -42,11 +58,7 @@ const CourseList = ({ navigation, route }) => {
             flex: 1,
           }}
         >
-          <View>
-            <View style={styles.headerText}>
-              <Text style={styles.profileText}>Course List</Text>
-            </View>
-          </View>
+          <View></View>
           <View>
             <View
               style={{
@@ -57,30 +69,22 @@ const CourseList = ({ navigation, route }) => {
               <View style={styles.container}>
                 {courses.map((course) => {
                   return (
-                    <View style={{ alignItems: "flex-start" }}>
-                      <Button
-                        variant="link"
-                        onPress={() => {
-                          navigation.navigate("ViewCourse", {
-                            courseId: course.id,
-                          });
-                        }}
-                      >
-                        <Text style={styles.item}>{course.name}</Text>
-                      </Button>
+                    <View>
+                      <View style={styles.headerText}>
+                        <Text style={styles.profileText}>
+                          {course.courseName}
+                        </Text>
+                      </View>
+                      <View style={{ alignItems: "flex-start" }}>
+                        <Button style={{ backgroundColor: "transparent" }}>
+                          <Text style={styles.item}>
+                            {course.courseContent}
+                          </Text>
+                        </Button>
+                      </View>
                     </View>
                   );
                 })}
-              </View>
-            </View>
-            <View>
-              <View style={{ alignItems: "center" }}>
-                <CustomButton
-                  label={"Add Course"}
-                  onPress={() => {
-                    navigation.navigate("AddCourse");
-                  }}
-                />
               </View>
             </View>
           </View>
@@ -89,7 +93,12 @@ const CourseList = ({ navigation, route }) => {
           <View style={{ padding: 20 }}>
             <CustomButton
               label={"Back"}
-              onPress={async () => navigation.navigate("Home")}
+              onPress={async () =>
+                navigation.navigate("StudentHome", {
+                  studentId: studentId,
+                  page: "EnrollCourse",
+                })
+              }
             />
           </View>
         </View>
@@ -150,4 +159,4 @@ const styles = StyleSheet.create({
 //   },
 // });
 
-export default CourseList;
+export default EnrolledCourses;

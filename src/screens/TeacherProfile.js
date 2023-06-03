@@ -128,7 +128,7 @@ const TeacherProfile = ({ navigation, route }) => {
           <CustomButton
             label={"Back"}
             onPress={async () =>
-              navigation.navigate("Home", { jsonData: jsonData })
+              navigation.navigate("TeacherHome", { jsonData: jsonData })
             }
           />
         </View>

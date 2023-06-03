@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import InputField from "../components/InputField.js";
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../components/CustomButton.js";
 import { Image } from "expo-image";
 import LoginSVG from "../assets/images/misc/login.png";
 import {
@@ -18,19 +18,26 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
-import { getBaseUrl } from "../utils";
+import { getBaseUrl } from "../utils.js";
 import { Auth } from "aws-amplify";
 import Login from "./Login.js";
 
-const Home = ({ navigation, route }) => {
+const TeacherHome = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState([]);
   const profileEmail = route.params?.jsonData?.email;
   const params = route.params?.email;
+
   var url = "";
   var userRole = "";
 
-  console.log("Profile Page: ", profileEmail);
+  console.log("Profile Page: ", profileEmail + "ID: ", route.params?.teacherId);
+  var id = "";
+  if (route.params?.page == "TeacherCourse") {
+    id = route.params?.teacherId;
+  } else {
+    id = route.params?.cognitoID;
+  }
   const logoutButtonPress = async function () {
     try {
       console.log("Log out");
@@ -56,21 +63,21 @@ const Home = ({ navigation, route }) => {
       userRole = route.params?.jsonData?.userType;
     }
     url = "";
-    if (userRole == "teacher") {
-      if (params != null || params != undefined) {
-        console.log("TeacherRole: ", params);
-        url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
-      } else {
-        url = `${getBaseUrl()}/Teacher/profile?email=${profileEmail}`;
-      }
-    } else if (userRole == "student") {
-      if (params != null || params != undefined) {
-        console.log("Student Role: ", params);
-        url = `${getBaseUrl()}/Student/profile?email=${params}`;
-      } else {
-        url = `${getBaseUrl()}/Student/profile?email=${profileEmail}`;
-      }
+    // if (userRole == "teacher") {
+    if (params != null || params != undefined) {
+      console.log("TeacherRole: ", params);
+      url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
+    } else {
+      url = `${getBaseUrl()}/Teacher/profile?email=${profileEmail}`;
     }
+    // } else if (userRole == "student") {
+    //   if (params != null || params != undefined) {
+    //     console.log("Student Role: ", params);
+    //     url = `${getBaseUrl()}/Student/profile?email=${params}`;
+    //   } else {
+    //     url = `${getBaseUrl()}/Student/profile?email=${profileEmail}`;
+    //   }
+    // }
 
     console.log("URL: ", url);
 
@@ -139,7 +146,7 @@ const Home = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("CourseList");
+              navigation.navigate("TeacherCourseList", { id: id });
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>Courses</Text>
@@ -157,7 +164,7 @@ const Home = ({ navigation, route }) => {
     </SafeAreaView>
   );
 };
-export default Home;
+export default TeacherHome;
 
 const styles = StyleSheet.create({
   logOutText: {

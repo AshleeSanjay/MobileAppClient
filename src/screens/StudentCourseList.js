@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   View,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
-  Alert,
   Platform,
 } from "react-native";
 import InputField from "../components/InputField.js";
@@ -15,58 +14,28 @@ import CustomButton from "../components/CustomButton.js";
 import { Image } from "expo-image";
 const ProfileBak = require("../assets/images/misc/profilebak.png");
 import LoginSVG from "../assets/images/misc/studentImg.jpg";
+import { getBaseUrl } from "../utils.js";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
-import { getBaseUrl } from "../utils.js";
 
-const ViewCourse = ({ navigation, route }) => {
+const StudentCourseList = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [courses, setCourses] = useState([]);
-  console.log(
-    "CourseId: ",
-    route.params?.courseId + ", CourseName: ",
-    route.params?.courseName + ", CourseContent: ",
-    route.params?.courseContent + ", StudentID: ",
-    route.params?.studentId
-  );
-  const enrollCourse = async () => {
-    try {
-      const studentId = route.params?.studentId;
-      const courseId = route.params?.courseId;
-      const url = `${getBaseUrl()}/Course/updateCourse?courseId=${courseId}`;
-      await fetch(url, {
-        headers: { "content-type": "application/json" },
-        method: "PATCH",
-        body: JSON.stringify({
-          cognitoSid: studentId,
-        }),
-      })
-        .then(() => {
-          Alert.alert("Alert", "Enrolled Successfully", [
-            {
-              text: "OK",
-              onPress: () => {
-                console.log("button pressed");
-              },
-            },
-          ]);
-        })
-        .catch((err) => {
-          Alert.alert("Warning", `${err}`, [
-            {
-              text: "OK",
-              onPress: () => {
-                console.log("button pressed");
-              },
-            },
-          ]);
-        });
-    } catch (error) {}
-  };
+  console.log("CourseList, ID: ", route.params?.id);
+  const studentId = route.params?.id;
 
+  // console.log("From Add course page: ", route.params?.studentId);
+  var url = `${getBaseUrl()}/Course/viewStudentCourseList`;
+  useEffect(() => {
+    fetch(url, {
+      headers: { "content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => setCourses(data));
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
@@ -77,11 +46,6 @@ const ViewCourse = ({ navigation, route }) => {
           }}
         >
           <View>
-            <View style={styles.headerText}>
-              <Text style={styles.profileText}>{route.params?.courseName}</Text>
-            </View>
-          </View>
-          <View>
             <View
               style={{
                 flexDirection: "row",
@@ -89,14 +53,36 @@ const ViewCourse = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                <View style={styles.item}>
-                  <Text>{route.params?.courseContent}</Text>
-                </View>
-              </View>
-              <View>
-                <View style={{ alignItems: "center", marginRight: 20 }}>
-                  <CustomButton label={"Enroll"} onPress={enrollCourse} />
-                </View>
+                {courses.map((course) => {
+                  return (
+                    <View>
+                      <View>
+                        <View style={styles.headerText}>
+                          <Text style={styles.profileText}>
+                            {course.courseName}
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={{ alignItems: "flex-start" }}>
+                        <Button
+                          variant="link"
+                          onPress={() => {
+                            navigation.navigate("ViewCourse", {
+                              courseId: course._id,
+                              studentId: course.cognitoSid,
+                              courseName: course.courseName,
+                              courseContent: course.courseContent,
+                            });
+                          }}
+                        >
+                          <Text style={styles.item}>
+                            {course.courseContent}
+                          </Text>
+                        </Button>
+                      </View>
+                    </View>
+                  );
+                })}
               </View>
             </View>
           </View>
@@ -105,7 +91,12 @@ const ViewCourse = ({ navigation, route }) => {
           <View style={{ padding: 20 }}>
             <CustomButton
               label={"Back"}
-              onPress={async () => navigation.navigate("StudentCourseList")}
+              onPress={async () =>
+                navigation.navigate("StudentHome", {
+                  studentId: studentId,
+                  page: "StudentCourse",
+                })
+              }
             />
           </View>
         </View>
@@ -116,7 +107,6 @@ const ViewCourse = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
   },
   headerText: {
     paddingLeft: Platform.OS === "web" ? 600 : 130,
@@ -148,9 +138,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000a0",
   },
   item: {
-    padding: 20,
     fontSize: 15,
   },
 });
 
-export default ViewCourse;
+export default StudentCourseList;
