@@ -21,20 +21,24 @@ import {
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
 
-const StudentCourseList = ({ navigation, route }) => {
+const ViewSubmittedAssignment = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
-  const [courses, setCourses] = useState([]);
-  console.log("CourseList, ID: ", route.params?.id);
-  const studentId = route.params?.id;
-
-  // console.log("From Add course page: ", route.params?.studentId);
-  var url = `${getBaseUrl()}/Course/viewStudentCourseList`;
+  const [assignment, setAssignment] = useState([]);
+  //   const studentId = route.params?.id;
+  console.log("Assignment Id: ", route.params?.assignmentId);
+  console.log("Cognito SID: ", route.params?.studentId);
+  var url = `${getBaseUrl()}/Assignment/viewSubmittedAssignment?assignmentId=${
+    route.params?.assignmentId
+  }&cognitoSid=${route.params?.studentId}`;
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
-      .then((data) => setCourses(data));
+      .then((data) => {
+        console.log("Submitted Assignment Data: ", data);
+        setAssignment(data);
+      });
   }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -53,32 +57,27 @@ const StudentCourseList = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                {courses.map((course) => {
-                  return (
-                    <View>
-                      <View>
-                        <View style={styles.headerText}>
-                          <Text style={styles.profileText}>List of course</Text>
-                        </View>
-                      </View>
-                      <View style={{ alignItems: "flex-start" }}>
-                        <Button
-                          variant="link"
-                          onPress={() => {
-                            navigation.navigate("ViewCourse", {
-                              courseId: course._id,
-                              studentId: course.cognitoSid,
-                              courseName: course.courseName,
-                              courseContent: course.courseContent,
-                            });
-                          }}
-                        >
-                          <Text style={styles.item}>{course.courseName}</Text>
-                        </Button>
-                      </View>
+                <View>
+                  <View>
+                    <View style={styles.headerText}>
+                      <Text style={styles.profileText}>
+                        {assignment.assignmentTitle}
+                      </Text>
                     </View>
-                  );
-                })}
+                  </View>
+                  <View
+                    style={{
+                      alignItems: "flex-start",
+                      marginLeft: 20,
+                      marginTop: 20,
+                    }}
+                  >
+                    <Text style={styles.item}>{assignment.questionOne}</Text>
+                    <Text style={styles.item}>{assignment.answerOne}</Text>
+                    <Text style={styles.item}>{assignment.questionTwo}</Text>
+                    <Text style={styles.item}>{assignment.answerTwo}</Text>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
@@ -88,9 +87,9 @@ const StudentCourseList = ({ navigation, route }) => {
             <CustomButton
               label={"Back"}
               onPress={async () =>
-                navigation.navigate("StudentHome", {
-                  studentId: studentId,
-                  page: "StudentCourse",
+                navigation.navigate("ViewSubmittedStudents", {
+                  //   studentId: studentId,
+                  //   page: "StudentCourse",
                 })
               }
             />
@@ -138,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentCourseList;
+export default ViewSubmittedAssignment;

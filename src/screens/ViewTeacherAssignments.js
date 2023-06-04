@@ -21,21 +21,37 @@ import {
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
 
-const StudentCourseList = ({ navigation, route }) => {
+const ViewTeacheAssignments = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
-  const [courses, setCourses] = useState([]);
-  console.log("CourseList, ID: ", route.params?.id);
-  const studentId = route.params?.id;
+  const [assignments, setAssignments] = useState([]);
+  const [submittedAssignment, setSubmittedAssignment] = useState([]);
+  const [count, setCount] = useState(null);
 
-  // console.log("From Add course page: ", route.params?.studentId);
-  var url = `${getBaseUrl()}/Course/viewStudentCourseList`;
+  var url = `${getBaseUrl()}/Assignment/viewTeacherAssignment`;
+  var submittedUrl = `${getBaseUrl()}/Assignment/submittedAssignmentList`;
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
-      .then((data) => setCourses(data));
+      .then((data) => {
+        console.log("Data: ", data);
+        setAssignments(data);
+      });
   }, []);
+
+  useEffect(() => {
+    fetch(submittedUrl, {
+      headers: { "content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((dataList) => {
+        console.log("Count: ", Object.keys(dataList).length);
+        setCount(Object.keys(dataList).length);
+        setSubmittedAssignment(dataList);
+      });
+  }, []);
+  console.log("Count: ", count);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
@@ -46,6 +62,11 @@ const StudentCourseList = ({ navigation, route }) => {
           }}
         >
           <View>
+            <View style={styles.headerText}>
+              <Text style={styles.profileText}>Assignments</Text>
+            </View>
+          </View>
+          <View>
             <View
               style={{
                 flexDirection: "row",
@@ -53,34 +74,48 @@ const StudentCourseList = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                {courses.map((course) => {
+                {assignments.map((assignment) => {
                   return (
-                    <View>
-                      <View>
-                        <View style={styles.headerText}>
-                          <Text style={styles.profileText}>List of course</Text>
-                        </View>
-                      </View>
-                      <View style={{ alignItems: "flex-start" }}>
+                    <View style={{ alignItems: "flex-start" }}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                        }}
+                      >
                         <Button
+                          style={{ backgroundColor: "transparent" }}
                           variant="link"
                           onPress={() => {
-                            navigation.navigate("ViewCourse", {
-                              courseId: course._id,
-                              studentId: course.cognitoSid,
-                              courseName: course.courseName,
-                              courseContent: course.courseContent,
+                            navigation.navigate("ViewSubmittedStudents", {
+                              assignmentId: assignment._id,
+                              cognitoSid: assignment.cognitoSid,
                             });
                           }}
                         >
-                          <Text style={styles.item}>{course.courseName}</Text>
+                          <Text style={styles.item}>
+                            {assignment.assignmentTitle}
+                          </Text>
                         </Button>
+                        <View>
+                          {/* <Button
+                            variant="link"
+                            onPress={() => {
+                              navigation.navigate("ViewSubmittedStudents", {
+                                assignmentId: assignment.assignmentId,
+                                cognitoSid: assignment.cognitoSid,
+                              });
+                            }}
+                          >
+                            <Text style={styles.item}>Submitted {count}</Text> }
+                          </Button> */}
+                        </View>
                       </View>
                     </View>
                   );
                 })}
               </View>
             </View>
+            <View></View>
           </View>
         </View>
         <View>
@@ -88,9 +123,9 @@ const StudentCourseList = ({ navigation, route }) => {
             <CustomButton
               label={"Back"}
               onPress={async () =>
-                navigation.navigate("StudentHome", {
-                  studentId: studentId,
-                  page: "StudentCourse",
+                navigation.navigate("TeacherHome", {
+                  //   teacherId: teacherId,
+                  page: "ViewTeacherAssignments",
                 })
               }
             />
@@ -138,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentCourseList;
+export default ViewTeacheAssignments;

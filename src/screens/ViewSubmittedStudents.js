@@ -21,20 +21,24 @@ import {
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
 
-const StudentCourseList = ({ navigation, route }) => {
+const ViewSubmittedStudents = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
-  const [courses, setCourses] = useState([]);
-  console.log("CourseList, ID: ", route.params?.id);
-  const studentId = route.params?.id;
+  const [students, setStudents] = useState([]);
+  console.log("Assignment Title", route.params?.assignmentId);
+  //   const studentId = route.params?.id;
 
-  // console.log("From Add course page: ", route.params?.studentId);
-  var url = `${getBaseUrl()}/Course/viewStudentCourseList`;
+  var url = `${getBaseUrl()}/Student/viewSubmittedStudents?assignmentId=${
+    route.params?.assignmentId
+  }&cognitoSid=${route.params?.cognitoSid}`;
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
-      .then((data) => setCourses(data));
+      .then((data) => {
+        console.log("Data: ", data);
+        setStudents(data);
+      });
   }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -53,27 +57,27 @@ const StudentCourseList = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                {courses.map((course) => {
+                {students.map((student) => {
                   return (
                     <View>
                       <View>
                         <View style={styles.headerText}>
-                          <Text style={styles.profileText}>List of course</Text>
+                          <Text style={styles.profileText}>
+                            Submitted Students
+                          </Text>
                         </View>
                       </View>
                       <View style={{ alignItems: "flex-start" }}>
                         <Button
                           variant="link"
                           onPress={() => {
-                            navigation.navigate("ViewCourse", {
-                              courseId: course._id,
-                              studentId: course.cognitoSid,
-                              courseName: course.courseName,
-                              courseContent: course.courseContent,
+                            navigation.navigate("ViewSubmittedAssignment", {
+                              assignmentId: student.assignmentId,
+                              studentId: student.cognitoSid,
                             });
                           }}
                         >
-                          <Text style={styles.item}>{course.courseName}</Text>
+                          <Text style={styles.item}>{student.name}</Text>
                         </Button>
                       </View>
                     </View>
@@ -88,9 +92,9 @@ const StudentCourseList = ({ navigation, route }) => {
             <CustomButton
               label={"Back"}
               onPress={async () =>
-                navigation.navigate("StudentHome", {
-                  studentId: studentId,
-                  page: "StudentCourse",
+                navigation.navigate("ViewTeacherAssignments", {
+                  //   studentId: studentId,
+                  //   page: "StudentCourse",
                 })
               }
             />
@@ -105,18 +109,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    paddingLeft: Platform.OS === "web" ? 600 : 130,
-    backgroundColor: "#30CC94",
-    paddingTop: 60,
+    // paddingLeft: Platform.OS === "web" ? 600 : 130,
+    // backgroundColor: "#30CC94",
+    marginLeft: 10,
+    paddingTop: 30,
     height: 150,
   },
   profileText: {
     fontSize: 28,
     fontWeight: "500",
-    color: "#fff",
+    // color: "#fff",
     marginBottom: 50,
     alignItems: "center",
-    // paddingLeft: Platform.OS === "web" ? 500 : 35,
+    // marginRight: 50,
   },
   image: {
     borderRadius: 100,
@@ -138,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StudentCourseList;
+export default ViewSubmittedStudents;

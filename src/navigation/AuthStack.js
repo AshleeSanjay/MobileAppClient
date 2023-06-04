@@ -15,6 +15,10 @@ import ViewCourse from "../screens/ViewCourse";
 import StudentHome from "../screens/StudentHome";
 import EnrolledCourses from "../screens/EnrolledCourses";
 import StudentCourseList from "../screens/StudentCourseList";
+import AddAssignment from "../screens/AddAssignment";
+import ViewTeacherAssignments from "../screens/ViewTeacherAssignments";
+import ViewSubmittedStudents from "../screens/ViewSubmittedStudents";
+import ViewSubmittedAssignment from "../screens/ViewSubmittedAssignment";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -44,6 +48,25 @@ const AuthStack = () => {
       {<Stack.Screen name="ViewCourse" component={ViewCourse} />}
       {<Stack.Screen name="EnrolledCourses" component={EnrolledCourses} />}
       {<Stack.Screen name="StudentCourseList" component={StudentCourseList} />}
+      {<Stack.Screen name="AddAssignment" component={AddAssignment} />}
+      {
+        <Stack.Screen
+          name="ViewTeacherAssignments"
+          component={ViewTeacherAssignments}
+        />
+      }
+      {
+        <Stack.Screen
+          name="ViewSubmittedStudents"
+          component={ViewSubmittedStudents}
+        />
+      }
+      {
+        <Stack.Screen
+          name="ViewSubmittedAssignment"
+          component={ViewSubmittedAssignment}
+        />
+      }
     </Stack.Navigator>
   );
 };

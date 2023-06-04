@@ -33,7 +33,10 @@ const TeacherHome = ({ navigation, route }) => {
 
   console.log("Profile Page: ", profileEmail + "ID: ", route.params?.teacherId);
   var id = "";
-  if (route.params?.page == "TeacherCourse") {
+  if (
+    route.params?.page == "TeacherCourse" ||
+    route.params?.page == "AddAssignment"
+  ) {
     id = route.params?.teacherId;
   } else {
     id = route.params?.cognitoID;
@@ -154,10 +157,22 @@ const TeacherHome = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("AddAssignment", { id: id });
             }}
           >
-            <Text style={{ color: "black", fontSize: 20 }}>Assignments</Text>
+            <Text style={{ color: "black", fontSize: 20 }}>
+              Add Assignments
+            </Text>
+          </Button>
+          <Button
+            variant="link"
+            onPress={() => {
+              navigation.navigate("ViewTeacherAssignments", { id: id });
+            }}
+          >
+            <Text style={{ color: "black", fontSize: 20 }}>
+              View Assignments
+            </Text>
           </Button>
         </View>
       </NativeBaseProvider>

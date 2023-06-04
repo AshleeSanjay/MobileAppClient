@@ -53,9 +53,11 @@ const Verification = ({ route, navigation }) => {
         body: JSON.stringify({
           name: name,
           cognitoId: uniqueId,
+          cognitoSid: "",
           email: email,
           mobile: mobile,
           userType: userType,
+          assignmentId: "",
         }),
       })
         .then(() => {
@@ -82,6 +84,7 @@ const Verification = ({ route, navigation }) => {
           email: email,
           mobile: mobile,
           userType: userType,
+          assignmentId: "",
         }),
       })
         .then(() => {
