@@ -19,6 +19,8 @@ import AddAssignment from "../screens/AddAssignment";
 import ViewTeacherAssignments from "../screens/ViewTeacherAssignments";
 import ViewSubmittedStudents from "../screens/ViewSubmittedStudents";
 import ViewSubmittedAssignment from "../screens/ViewSubmittedAssignment";
+import ViewAssignmentList from "../screens/ViewAssignmentList";
+import SubmitAssignment from "../screens/SubmitAssignment";
 
 const Stack = createNativeStackNavigator();
 const AuthStack = () => {
@@ -67,6 +69,13 @@ const AuthStack = () => {
           component={ViewSubmittedAssignment}
         />
       }
+      {
+        <Stack.Screen
+          name="ViewAssignmentList"
+          component={ViewAssignmentList}
+        />
+      }
+      {<Stack.Screen name="SubmitAssignment" component={SubmitAssignment} />}
     </Stack.Navigator>
   );
 };

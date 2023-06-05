@@ -36,10 +36,8 @@ const Register = ({ navigation }) => {
 
   const handleChange = (event) => {
     if (Platform.OS === "web") {
-      console.log(event.target.value);
       setUserType(event.target.value);
     } else {
-      console.log(event.value);
       setUserType(event.value);
     }
   };
@@ -48,18 +46,15 @@ const Register = ({ navigation }) => {
       username: email,
       password: password,
       attributes: {
-        email: email, // optional
-        "custom:role": userType, // optional - E.164 number convention
-        // other custom attributes
+        email: email,
+        "custom:role": userType,
       },
       autoSignIn: {
-        // optional - enables auto sign in after user is confirmed
         enabled: true,
       },
     })
       .then((data) => {
         var id = data.userSub;
-        console.log("userSub:", data);
         navigation.navigate("Verification", {
           name: name,
           email: email,

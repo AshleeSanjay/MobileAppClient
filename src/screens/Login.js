@@ -53,14 +53,12 @@ const Login = ({ navigation }) => {
         setEmail("");
         setPassword("");
         setUserType("");
-        console.log("Login");
+
         const userDetails = await Auth.signIn(email, password);
-        console.log("User Details: ", userDetails);
         const { signInUserSession } = userDetails;
         const { idToken } = signInUserSession;
         const { accessToken } = signInUserSession;
         const { refreshToken } = signInUserSession;
-        console.log(Platform.OS);
 
         if (userType == "teacher") {
           url = `${getBaseUrl()}/Teacher/profile`;

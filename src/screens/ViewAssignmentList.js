@@ -14,31 +14,33 @@ import CustomButton from "../components/CustomButton.js";
 import { Image } from "expo-image";
 const ProfileBak = require("../assets/images/misc/profilebak.png");
 import LoginSVG from "../assets/images/misc/studentImg.jpg";
-import { getBaseUrl } from "../utils";
+import { getBaseUrl } from "../utils.js";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
 
-const EnrolledCourses = ({ navigation, route }) => {
+const ViewAssignmentList = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
-  const [courses, setCourses] = useState([]);
-  const [courseId, setCourseId] = useState("");
-  console.log("CourseList, ID: ", route.params?.id);
-  const studentId = route.params?.id;
-
-  var url = `${getBaseUrl()}/Course/viewEnrolledCourseList?cognitoSid=${studentId}`;
-
+  const [assignments, setAssignments] = useState([]);
+  const [submittedAssignment, setSubmittedAssignment] = useState([]);
+  const [count, setCount] = useState(null);
+  var url = `${getBaseUrl()}/Assignment/viewAssignment?courseId=${
+    route.params?.courseId
+  }`;
+  console.log("URL: ", url);
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
       .then((data) => {
-        setCourses(data);
+        console.log("View Assignment Data: ", data);
+        setAssignments(data);
       });
   }, []);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NativeBaseProvider>
@@ -48,7 +50,11 @@ const EnrolledCourses = ({ navigation, route }) => {
             flex: 1,
           }}
         >
-          <View></View>
+          <View>
+            <View style={styles.headerText}>
+              <Text style={styles.profileText}>Assignments</Text>
+            </View>
+          </View>
           <View>
             <View
               style={{
@@ -57,37 +63,26 @@ const EnrolledCourses = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                {courses.map((course) => {
+                {assignments.map((assignment) => {
                   return (
-                    <View>
-                      <View style={styles.headerText}>
-                        <Text style={styles.profileText}>
-                          {course.courseName}
-                        </Text>
-                      </View>
-                      <View style={{ alignItems: "flex-start" }}>
-                        <Button style={{ backgroundColor: "transparent" }}>
-                          <Text style={styles.item}>
-                            {course.courseContent}
-                          </Text>
-                        </Button>
+                    <View style={{ alignItems: "flex-start" }}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                        }}
+                      >
                         <Button
+                          style={{ backgroundColor: "transparent" }}
                           variant="link"
                           onPress={() => {
-                            navigation.navigate("ViewAssignmentList", {
-                              courseId: course._id,
-                              studentId: route.params.id,
+                            navigation.navigate("SubmitAssignment", {
+                              assignmentId: assignment._id,
+                              cognitoSid: route.params?.studentId,
                             });
                           }}
                         >
-                          <Text
-                            style={{
-                              color: "black",
-                              fontSize: 15,
-                              fontStyle: "italic",
-                            }}
-                          >
-                            View Assignments
+                          <Text style={styles.item}>
+                            {assignment.assignmentTitle}
                           </Text>
                         </Button>
                       </View>
@@ -96,6 +91,7 @@ const EnrolledCourses = ({ navigation, route }) => {
                 })}
               </View>
             </View>
+            <View></View>
           </View>
         </View>
         <View>
@@ -104,8 +100,8 @@ const EnrolledCourses = ({ navigation, route }) => {
               label={"Back"}
               onPress={async () =>
                 navigation.navigate("StudentHome", {
-                  studentId: studentId,
-                  page: "EnrollCourse",
+                  //   studentId: studentId,
+                  //   page: "ViewAssignmentList",
                 })
               }
             />
@@ -131,15 +127,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 50,
     alignItems: "center",
-    // paddingLeft: Platform.OS === "web" ? 500 : 35,
   },
   image: {
     borderRadius: 100,
     border: "4px solid #FFFFFF",
     width: Platform.OS === "web" ? 100 : 150,
     height: Platform.OS === "web" ? 500 : 150,
-
-    // display: Platform.OS === "web" ? "none" : "flex",
   },
   text: {
     color: "white",
@@ -153,19 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 50,
-//   },
-
-//   profileText: {
-//     fontSize: 28,
-//     fontWeight: "500",
-//     color: "#fff",
-//     marginBottom: 50,
-//     alignItems: "center",
-//   },
-// });
-
-export default EnrolledCourses;
+export default ViewAssignmentList;

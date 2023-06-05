@@ -43,7 +43,6 @@ const TeacherHome = ({ navigation, route }) => {
   }
   const logoutButtonPress = async function () {
     try {
-      console.log("Log out");
       await Auth.signOut({ global: true });
       navigation.navigate("Login");
     } catch (error) {
@@ -56,43 +55,28 @@ const TeacherHome = ({ navigation, route }) => {
   };
   const showProfile = async function () {
     if (route.params?.userType != null || route.params?.userType != undefined) {
-      console.log("User Role: ", route.params?.userType);
       userRole = route.params?.userType;
     } else if (
       route.params?.jsonData?.userType != null ||
       route.params?.jsonData?.userType != undefined
     ) {
-      console.log("User Role: ", route.params?.jsonData?.userType);
       userRole = route.params?.jsonData?.userType;
     }
     url = "";
-    // if (userRole == "teacher") {
+
     if (params != null || params != undefined) {
-      console.log("TeacherRole: ", params);
       url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
     } else {
       url = `${getBaseUrl()}/Teacher/profile?email=${profileEmail}`;
     }
-    // } else if (userRole == "student") {
-    //   if (params != null || params != undefined) {
-    //     console.log("Student Role: ", params);
-    //     url = `${getBaseUrl()}/Student/profile?email=${params}`;
-    //   } else {
-    //     url = `${getBaseUrl()}/Student/profile?email=${profileEmail}`;
-    //   }
-    // }
-
-    console.log("URL: ", url);
 
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
         setData(json);
         if (userRole == "teacher") {
-          console.log("Teacher Profile");
           navigation.navigate("TeacherProfile", { data: json });
         } else if (userRole == "student") {
-          console.log("Student Profile", userRole);
           navigation.navigate("StudentProfile", { data: json });
         }
       })
