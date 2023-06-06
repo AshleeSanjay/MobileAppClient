@@ -42,6 +42,8 @@ const ViewCourse = ({ navigation, route }) => {
         method: "PATCH",
         body: JSON.stringify({
           cognitoSid: studentId,
+          email: route.params?.email,
+          studentDetails: route.params?.studentDetails,
         }),
       })
         .then(() => {
@@ -105,7 +107,14 @@ const ViewCourse = ({ navigation, route }) => {
           <View style={{ padding: 20 }}>
             <CustomButton
               label={"Back"}
-              onPress={async () => navigation.navigate("StudentCourseList")}
+              onPress={async () =>
+                navigation.navigate("StudentCourseList", {
+                  studentId: route.params?.studentId,
+                  email: route.params?.email,
+                  studentDetails: route.params?.studentDetails,
+                  page: "ViewCourse",
+                })
+              }
             />
           </View>
         </View>

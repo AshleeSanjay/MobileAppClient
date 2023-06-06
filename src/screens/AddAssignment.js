@@ -181,6 +181,7 @@ const AddAssignment = ({ navigation, route }) => {
           onPress={() =>
             navigation.navigate("TeacherHome", {
               teacherId: teacherId,
+              teacherDetails: route.params?.teacherDetails,
               page: "AddAssignment",
             })
           }

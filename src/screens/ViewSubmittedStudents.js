@@ -74,6 +74,9 @@ const ViewSubmittedStudents = ({ navigation, route }) => {
                             navigation.navigate("ViewSubmittedAssignment", {
                               assignmentId: student.assignmentId,
                               studentId: student.cognitoSid,
+                              teacherId:
+                                route.params?.teacherDetails?.cognitoId,
+                              teacherDetails: route.params?.teacherDetails,
                             });
                           }}
                         >
@@ -93,8 +96,8 @@ const ViewSubmittedStudents = ({ navigation, route }) => {
               label={"Back"}
               onPress={async () =>
                 navigation.navigate("ViewTeacherAssignments", {
-                  //   studentId: studentId,
-                  //   page: "StudentCourse",
+                  teacherDetails: route.params?.teacherDetails,
+                  teacherId: route.params?.teacherDetails?.cognitoId,
                 })
               }
             />

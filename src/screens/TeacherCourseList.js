@@ -34,8 +34,11 @@ const TeacherCourseList = ({ navigation, route }) => {
   }
   const teacherIdAddCourse = route.params?.teacherId;
 
-  console.log("From Add course page: ", route.params?.teacherId);
-  var url = `${getBaseUrl()}/Course/viewTeacherCourseList?cognitoId=${teacherId}`;
+  console.log("From Add course page: ", route.params?.id);
+  console.log("TeacherCourseList: ", route.params?.data);
+  var url = `${getBaseUrl()}/Course/viewTeacherCourseList?cognitoId=${
+    route.params?.id
+  }`;
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
@@ -83,6 +86,7 @@ const TeacherCourseList = ({ navigation, route }) => {
                   onPress={() => {
                     navigation.navigate("AddCourse", {
                       teacherId: teacherId,
+                      teacherDetails: route.params?.teacherDetails,
                     });
                   }}
                 />
@@ -97,6 +101,8 @@ const TeacherCourseList = ({ navigation, route }) => {
               onPress={async () =>
                 navigation.navigate("TeacherHome", {
                   teacherId: teacherId,
+                  email: route.params?.teacherDetails?.email,
+                  teacherDetails: route.params?.teacherDetails,
                   page: "TeacherCourse",
                 })
               }

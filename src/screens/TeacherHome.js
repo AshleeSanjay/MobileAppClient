@@ -64,21 +64,25 @@ const TeacherHome = ({ navigation, route }) => {
     }
     url = "";
 
-    if (params != null || params != undefined) {
-      url = `${getBaseUrl()}/Teacher/profile?email=${params}`;
+    if (route.params?.page == "Login") {
+      url = `${getBaseUrl()}/Teacher/profile?email=${route.params?.email}`;
     } else {
-      url = `${getBaseUrl()}/Teacher/profile?email=${profileEmail}`;
+      console.log(
+        "Teacher course list details: ",
+        route.params?.teacherDetails?.email
+      );
+      url = `${getBaseUrl()}/Teacher/profile?email=${
+        route.params?.teacherDetails?.email
+      }`;
     }
+    // url = `${getBaseUrl()}/Teacher/profile?email=${route.params?.email}`;
 
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
         setData(json);
-        if (userRole == "teacher") {
-          navigation.navigate("TeacherProfile", { data: json });
-        } else if (userRole == "student") {
-          navigation.navigate("StudentProfile", { data: json });
-        }
+        console.log("Data: ", data);
+        navigation.navigate("TeacherProfile", { data: json });
       })
       .catch((err) => {
         console.log("Home.js err", err);
@@ -133,7 +137,10 @@ const TeacherHome = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("TeacherCourseList", { id: id });
+              navigation.navigate("TeacherCourseList", {
+                id: route.params?.teacherId,
+                teacherDetails: data,
+              });
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>Courses</Text>
@@ -141,7 +148,10 @@ const TeacherHome = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("AddAssignment", { id: id });
+              navigation.navigate("AddAssignment", {
+                id: route.params?.teacherId,
+                teacherDetails: route.params?.teacherDetails,
+              });
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>
@@ -151,7 +161,10 @@ const TeacherHome = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("ViewTeacherAssignments", { id: id });
+              navigation.navigate("ViewTeacherAssignments", {
+                id: route.params?.teacherId,
+                teacherDetails: data,
+              });
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>

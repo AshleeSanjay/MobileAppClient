@@ -21,19 +21,19 @@ import {
 } from "react-native-safe-area-context";
 import { Button, NativeBaseProvider } from "native-base";
 
-const EnrolledCourses = ({ navigation, route }) => {
+const ViewEnrolledCourse = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
-  const [courses, setCourses] = useState([]);
-  const [courseId, setCourseId] = useState("");
-  console.log("CourseList, ID: ", route.params?.id);
+  const [course, setCourse] = useState([]);
+  //   const [courseId, setCourseId] = useState("");
+  console.log("Course Id: ", route.params?.courseId);
   var studentId = "";
   if (route.params?.page == "ViewAssignmentList") {
-    studentId = route.params?.studentId;
+    courseId = route.params?.studentId;
   } else {
     studentId = route.params?.id;
   }
-  var url = `${getBaseUrl()}/Course/viewEnrolledCourseList?cognitoSid=${
-    route.params?.id
+  var url = `${getBaseUrl()}/Course/viewEnrolledCourse?courseId=${
+    route.params?.courseId
   }`;
 
   useEffect(() => {
@@ -42,7 +42,8 @@ const EnrolledCourses = ({ navigation, route }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setCourses(data);
+        console.log("View enrolled course data: ", data);
+        setCourse(data);
       });
   }, []);
   return (
@@ -63,30 +64,38 @@ const EnrolledCourses = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                {courses.map((course) => {
-                  return (
-                    <View>
-                      <View style={styles.headerText}>
-                        <Text style={styles.profileText}>Enrolled Courses</Text>
-                      </View>
-                      <View style={{ alignItems: "flex-start" }}>
-                        <Button
-                          style={{ backgroundColor: "transparent" }}
-                          variant="link"
-                          onPress={() => {
-                            navigation.navigate("ViewEnrolledCourse", {
-                              courseId: course._id,
-                              email: route.params?.email,
-                              studentDetails: route.params?.studentDetails,
-                            });
-                          }}
-                        >
-                          <Text style={styles.item}>{course.courseName}</Text>
-                        </Button>
-                      </View>
-                    </View>
-                  );
-                })}
+                <View>
+                  <View style={styles.headerText}>
+                    <Text style={styles.profileText}>{course.courseName}</Text>
+                  </View>
+                  <View style={{ alignItems: "flex-start" }}>
+                    <Button style={{ backgroundColor: "transparent" }}>
+                      <Text style={styles.item}>{course.courseContent}</Text>
+                    </Button>
+
+                    <Button
+                      variant="link"
+                      onPress={() => {
+                        navigation.navigate("ViewAssignmentList", {
+                          courseId: course._id,
+                          studentId: route.params.id,
+                          email: route.params?.email,
+                          studentDetails: route.params?.studentDetails,
+                        });
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: "black",
+                          fontSize: 15,
+                          fontStyle: "italic",
+                        }}
+                      >
+                        View Assignments
+                      </Text>
+                    </Button>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
@@ -96,11 +105,11 @@ const EnrolledCourses = ({ navigation, route }) => {
             <CustomButton
               label={"Back"}
               onPress={async () =>
-                navigation.navigate("StudentHome", {
-                  studentId: route.params?.studentId,
+                navigation.navigate("EnrolledCourses", {
+                  studentId: studentId,
                   email: route.params?.email,
                   studentDetails: route.params?.studentDetails,
-                  page: "EnrollCourse",
+                  page: "ViewEnrolledCourse",
                 })
               }
             />
@@ -163,4 +172,4 @@ const styles = StyleSheet.create({
 //   },
 // });
 
-export default EnrolledCourses;
+export default ViewEnrolledCourse;

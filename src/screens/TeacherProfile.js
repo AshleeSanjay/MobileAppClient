@@ -29,9 +29,7 @@ const editTeacherProfile = async function () {
 };
 const TeacherProfile = ({ navigation, route }) => {
   const jsonData = route.params?.data;
-  console.log("profile page", route.params?.data);
-
-  console.log("email", route.params?.data?.email);
+  console.log("Teacher profile: ", route.params?.data);
 
   const insets = useSafeAreaInsets();
   return (
@@ -128,7 +126,11 @@ const TeacherProfile = ({ navigation, route }) => {
           <CustomButton
             label={"Back"}
             onPress={async () =>
-              navigation.navigate("TeacherHome", { jsonData: jsonData })
+              navigation.navigate("TeacherHome", {
+                jsonData: jsonData,
+                teacherId: route.params?.data?.cognitoId,
+                teacherDetails: route.params?.data,
+              })
             }
           />
         </View>

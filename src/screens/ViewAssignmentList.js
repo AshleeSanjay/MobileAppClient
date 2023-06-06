@@ -78,6 +78,9 @@ const ViewAssignmentList = ({ navigation, route }) => {
                             navigation.navigate("SubmitAssignment", {
                               assignmentId: assignment._id,
                               cognitoSid: route.params?.studentId,
+                              courseId: route.params?.courseId,
+                              email: route.params?.email,
+                              studentDetails: route.params?.studentDetails,
                             });
                           }}
                         >
@@ -99,9 +102,12 @@ const ViewAssignmentList = ({ navigation, route }) => {
             <CustomButton
               label={"Back"}
               onPress={async () =>
-                navigation.navigate("StudentHome", {
-                  //   studentId: studentId,
-                  //   page: "ViewAssignmentList",
+                navigation.navigate("ViewEnrolledCourse", {
+                  courseId: route.params?.courseId,
+                  studentId: route.params?.studentId,
+                  email: route.params?.email,
+                  studentDetails: route.params?.studentDetails,
+                  page: "ViewAssignmentList",
                 })
               }
             />

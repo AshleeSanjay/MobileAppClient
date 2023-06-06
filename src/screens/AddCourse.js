@@ -122,6 +122,7 @@ const AddCourse = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate("TeacherCourseList", {
                 teacherId: route.params?.teacherId,
+                teacherDetails: route.params?.teacherDetails,
                 page: "AddCourse",
               })
             }

@@ -81,13 +81,15 @@ const Login = ({ navigation }) => {
               navigation.navigate("TeacherHome", {
                 userType: userType,
                 email: email,
-                cognitoID: token.sub,
+                teacherId: token.sub,
+                page: "Login",
               });
             } else if (userType == "student") {
               navigation.navigate("StudentHome", {
                 userType: userType,
                 email: email,
-                cognitoID: token.sub,
+                studentId: token.sub,
+                page: "Login",
               });
             }
           })

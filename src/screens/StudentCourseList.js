@@ -25,16 +25,24 @@ const StudentCourseList = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [courses, setCourses] = useState([]);
   console.log("CourseList, ID: ", route.params?.id);
-  const studentId = route.params?.id;
+  var studentId = "";
+  if (route.params?.page == "ViewCourse") {
+    studentId = route.params?.studentId;
+  } else {
+    studentId = route.params?.id;
+  }
 
-  // console.log("From Add course page: ", route.params?.studentId);
+  console.log("From student course list page: ", route.params?.studentId);
   var url = `${getBaseUrl()}/Course/viewStudentCourseList`;
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
     })
       .then((res) => res.json())
-      .then((data) => setCourses(data));
+      .then((data) => {
+        console.log("Student Course: ", data);
+        setCourses(data);
+      });
   }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -70,6 +78,8 @@ const StudentCourseList = ({ navigation, route }) => {
                               studentId: course.cognitoSid,
                               courseName: course.courseName,
                               courseContent: course.courseContent,
+                              email: route.params?.email,
+                              studentDetails: route.params?.studentDetails,
                             });
                           }}
                         >
@@ -89,7 +99,9 @@ const StudentCourseList = ({ navigation, route }) => {
               label={"Back"}
               onPress={async () =>
                 navigation.navigate("StudentHome", {
-                  studentId: studentId,
+                  studentId: route.params?.id,
+                  email: route.params?.email,
+                  studentDetails: route.params?.studentDetails,
                   page: "StudentCourse",
                 })
               }

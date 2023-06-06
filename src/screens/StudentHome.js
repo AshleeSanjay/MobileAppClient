@@ -21,13 +21,12 @@ import { Button, NativeBaseProvider } from "native-base";
 import { getBaseUrl } from "../utils.js";
 import { Auth } from "aws-amplify";
 
-// const StudentDetailsUserContext = createContext(null);
-// const [currentUser, setCurrentUser] = useState(null);
 const StudentHome = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState([]);
   const profileEmail = route.params?.jsonData?.email;
   const params = route.params?.email;
+  var email = "";
 
   var url = "";
   var userRole = "";
@@ -40,7 +39,7 @@ const StudentHome = ({ navigation, route }) => {
   } else {
     id = route.params?.cognitoID;
   }
-
+  console.log("From Enrolled Course page:  ", route.params?.studentId);
   const logoutButtonPress = async function () {
     try {
       await Auth.signOut({ global: true });
@@ -64,21 +63,20 @@ const StudentHome = ({ navigation, route }) => {
     }
     url = "";
 
-    if (params != null || params != undefined) {
-      url = `${getBaseUrl()}/Student/profile?email=${params}`;
+    if (route.params?.page == "Login") {
+      url = `${getBaseUrl()}/Student/profile?email=${route.params?.email}`;
     } else {
-      url = `${getBaseUrl()}/Student/profile?email=${profileEmail}`;
+      console.log("Student Home email: ", route.params?.studentDetails);
+      url = `${getBaseUrl()}/Student/profile?email=${
+        route.params?.studentDetails?.email
+      }`;
     }
 
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
         setData(json);
-        if (userRole == "teacher") {
-          navigation.navigate("TeacherProfile", { data: json });
-        } else if (userRole == "student") {
-          navigation.navigate("StudentProfile", { data: json });
-        }
+        navigation.navigate("StudentProfile", { data: json });
       })
       .catch((err) => {
         Alert.alert("Warning", `${err}`, [
@@ -132,7 +130,11 @@ const StudentHome = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("StudentCourseList", { id: id });
+              navigation.navigate("StudentCourseList", {
+                id: route.params?.studentId,
+                email: route.params?.email,
+                studentDetails: data,
+              });
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>
@@ -142,7 +144,11 @@ const StudentHome = ({ navigation, route }) => {
           <Button
             variant="link"
             onPress={() => {
-              navigation.navigate("EnrolledCourses", { id: id });
+              navigation.navigate("EnrolledCourses", {
+                id: route.params?.studentId,
+                email: route.params?.email,
+                studentDetails: data,
+              });
             }}
           >
             <Text style={{ color: "black", fontSize: 20 }}>

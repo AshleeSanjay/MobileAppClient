@@ -88,8 +88,8 @@ const ViewSubmittedAssignment = ({ navigation, route }) => {
               label={"Back"}
               onPress={async () =>
                 navigation.navigate("ViewSubmittedStudents", {
-                  //   studentId: studentId,
-                  //   page: "StudentCourse",
+                  teacherDetails: route.params?.teacherDetails,
+                  teacherId: route.params?.teacherDetails?.cognitoId,
                 })
               }
             />

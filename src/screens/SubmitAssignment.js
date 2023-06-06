@@ -33,47 +33,56 @@ const SubmitAssignment = ({ navigation, route }) => {
   }`;
   console.log("URL: ", url);
   const submitAssignment = async () => {
-    console.log("Submit triggeres");
     var submitUrl = `${getBaseUrl()}/Assignment/updateAssignment?assignmentId=${
       route.params?.assignmentId
     }`;
-    console.log(
-      "Submit URL: ",
-      submitUrl + "Student Id: ",
-      route.params?.cognitoSid
-    );
-    await fetch(submitUrl, {
-      headers: { "content-type": "application/json" },
-      method: "PATCH",
-      body: JSON.stringify({
-        cognitoSid: route.params?.cognitoSid,
-        answerOne: answerOne,
-        answerTwo: answerTwo,
-      }),
-    })
-      .then((resp) => {
-        Alert.alert("Alert", "Assignment Submitted Successfully", [
-          {
-            text: "OK",
-            onPress: () => {
-              console.log("button pressed");
-              setAnswerOne("");
-              setAnswerTwo("");
-              navigation.navigate("ViewAssignmentList");
-            },
-          },
-        ]);
+    if (answerOne != "" && answerTwo != "") {
+      await fetch(submitUrl, {
+        headers: { "content-type": "application/json" },
+        method: "PATCH",
+        body: JSON.stringify({
+          cognitoSid: route.params?.cognitoSid,
+          answerOne: answerOne,
+          answerTwo: answerTwo,
+        }),
       })
-      .catch((err) => {
-        Alert.alert("Warning", `${err}`, [
-          {
-            text: "OK",
-            onPress: () => {
-              console.log("button pressed");
+        .then((resp) => {
+          Alert.alert("Alert", "Assignment Submitted Successfully", [
+            {
+              text: "OK",
+              onPress: () => {
+                console.log("button pressed");
+                setAnswerOne("");
+                setAnswerTwo("");
+                navigation.navigate("ViewAssignmentList", {
+                  courseId: route.params?.courseId,
+                  email: route.params?.email,
+                  studentDetails: route.params?.studentDetails,
+                });
+              },
             },
+          ]);
+        })
+        .catch((err) => {
+          Alert.alert("Warning", `${err}`, [
+            {
+              text: "OK",
+              onPress: () => {
+                console.log("button pressed");
+              },
+            },
+          ]);
+        });
+    } else {
+      Alert.alert("Warning", "Answers cannot be blank", [
+        {
+          text: "OK",
+          onPress: () => {
+            console.log("button pressed");
           },
-        ]);
-      });
+        },
+      ]);
+    }
   };
   useEffect(() => {
     fetch(url, {
@@ -147,18 +156,27 @@ const SubmitAssignment = ({ navigation, route }) => {
             </View>
           </View>
         </View>
-        <View>
-          <View style={{ padding: 20 }}>
-            <CustomButton
-              label={"Back"}
-              onPress={async () =>
-                navigation.navigate("ViewAssignmentList", {
-                  //   studentId: studentId,
-                  //   page: "StudentCourse",
-                })
-              }
-            />
-          </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginBottom: 30,
+          }}
+        >
+          <Text style={{ marginRight: 2 }}>Back to</Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("ViewAssignmentList", {
+                courseId: route.params?.courseId,
+                email: route.params?.email,
+                studentDetails: route.params?.studentDetails,
+              })
+            }
+          >
+            <Text style={{ color: "#30CC94", fontWeight: "700" }}>
+              ViewAssignmentList
+            </Text>
+          </TouchableOpacity>
         </View>
       </NativeBaseProvider>
     </SafeAreaView>

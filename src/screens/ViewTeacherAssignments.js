@@ -89,6 +89,8 @@ const ViewTeacheAssignments = ({ navigation, route }) => {
                             navigation.navigate("ViewSubmittedStudents", {
                               assignmentId: assignment._id,
                               cognitoSid: assignment.cognitoSid,
+                              teacherId: assignment.cognitoId,
+                              teacherDetails: route.params?.teacherDetails,
                             });
                           }}
                         >
@@ -96,19 +98,6 @@ const ViewTeacheAssignments = ({ navigation, route }) => {
                             {assignment.assignmentTitle}
                           </Text>
                         </Button>
-                        <View>
-                          {/* <Button
-                            variant="link"
-                            onPress={() => {
-                              navigation.navigate("ViewSubmittedStudents", {
-                                assignmentId: assignment.assignmentId,
-                                cognitoSid: assignment.cognitoSid,
-                              });
-                            }}
-                          >
-                            <Text style={styles.item}>Submitted {count}</Text> }
-                          </Button> */}
-                        </View>
                       </View>
                     </View>
                   );
@@ -124,7 +113,8 @@ const ViewTeacheAssignments = ({ navigation, route }) => {
               label={"Back"}
               onPress={async () =>
                 navigation.navigate("TeacherHome", {
-                  //   teacherId: teacherId,
+                  teacherDetails: route.params?.teacherDetails,
+                  teacherId: route.params?.teacherDetails?.cognitoId,
                   page: "ViewTeacherAssignments",
                 })
               }

@@ -110,7 +110,10 @@ const StudentProfile = ({ navigation, route }) => {
           <CustomButton
             label={"Back"}
             onPress={async () =>
-              navigation.navigate("StudentHome", { jsonData: jsonData })
+              navigation.navigate("StudentHome", {
+                jsonData: jsonData,
+                studentId: route.params?.data?.cognitoSid,
+              })
             }
           />
         </View>
