@@ -36,12 +36,13 @@ const SubmitAssignment = ({ navigation, route }) => {
     var submitUrl = `${getBaseUrl()}/Assignment/updateAssignment?assignmentId=${
       route.params?.assignmentId
     }`;
+    console.log("Submit Url: ", submitUrl);
     if (answerOne != "" && answerTwo != "") {
       await fetch(submitUrl, {
         headers: { "content-type": "application/json" },
         method: "PATCH",
         body: JSON.stringify({
-          cognitoSid: route.params?.cognitoSid,
+          cognitoSid: route.params?.studentId,
           answerOne: answerOne,
           answerTwo: answerTwo,
         }),
@@ -58,6 +59,7 @@ const SubmitAssignment = ({ navigation, route }) => {
                   courseId: route.params?.courseId,
                   email: route.params?.email,
                   studentDetails: route.params?.studentDetails,
+                  studentId: route.params?.studentId,
                 });
               },
             },
@@ -170,6 +172,7 @@ const SubmitAssignment = ({ navigation, route }) => {
                 courseId: route.params?.courseId,
                 email: route.params?.email,
                 studentDetails: route.params?.studentDetails,
+                studentId: route.params?.studentId,
               })
             }
           >

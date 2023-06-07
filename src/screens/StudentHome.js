@@ -131,7 +131,7 @@ const StudentHome = ({ navigation, route }) => {
             variant="link"
             onPress={() => {
               navigation.navigate("StudentCourseList", {
-                id: route.params?.studentId,
+                studentId: route.params?.studentId,
                 email: route.params?.email,
                 studentDetails: data,
               });
@@ -145,7 +145,7 @@ const StudentHome = ({ navigation, route }) => {
             variant="link"
             onPress={() => {
               navigation.navigate("EnrolledCourses", {
-                id: route.params?.studentId,
+                studentId: route.params?.studentId,
                 email: route.params?.email,
                 studentDetails: data,
               });

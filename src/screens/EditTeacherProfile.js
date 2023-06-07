@@ -18,40 +18,43 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import { getBaseUrl } from "../utils";
 
-const EditTeacherProfile = ({ navigation }) => {
+const EditTeacherProfile = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
 
-  const [userType, setUserType] = useState("");
+  const saveDetails = async function () {
+    var editUrl = `${getBaseUrl()}/Teacher/updateTeacherDetail?teacherId=${
+      route.params?.teacherId
+    }`;
 
-  const handleChange = (event) => {
-    if (Platform.OS === "web") {
-      console.log(event.target.value);
-      setUserType(event.target.value);
-    } else {
-      console.log(event.value);
-      setUserType(event.value);
-    }
-  };
-  const saveDetails = async function (name, mobile, url) {
-    console.log("URL: ", url);
-    await fetch(url, {
+    await fetch(editUrl, {
       headers: { "content-type": "application/json" },
-      method: "POST",
+      method: "PATCH",
       body: JSON.stringify({
         name: name,
         mobile: mobile,
       }),
     })
-      .then(() => {
-        navigation.navigate("TeacherProfile");
+      .then((resp) => {
+        Alert.alert("Alert", "Details edited Successfully", [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+              navigation.navigate("TeacherProfile", {
+                email: route.params?.email,
+                teacherId: route.params?.teacherId,
+                data: route.params?.data,
+                page: "EditTeacherProfile",
+              });
+            },
+          },
+        ]);
       })
       .catch((err) => {
         Alert.alert("Warning", `${err}`, [
@@ -117,10 +120,17 @@ const EditTeacherProfile = ({ navigation }) => {
         >
           <Text style={{ marginRight: 2 }}>Back to</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate("TeacherProfile")}
+            onPress={() =>
+              navigation.navigate("TeacherProfile", {
+                mail: route.params?.email,
+                teacherId: route.params?.teacherId,
+                data: route.params?.data,
+                page: "EditTeacherProfile",
+              })
+            }
           >
             <Text style={{ color: "#30CC94", fontWeight: "700" }}>
-              TeacherProfile
+              StudentProfile
             </Text>
           </TouchableOpacity>
         </View>

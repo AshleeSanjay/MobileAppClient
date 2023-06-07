@@ -68,9 +68,9 @@ const TeacherCourseList = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                {courses.map((course) => {
+                {(courses || []).map((course) => {
                   return (
-                    <View style={{ alignItems: "flex-start" }}>
+                    <View style={{ alignItems: "flex-start" }} key={course._id}>
                       <Button style={{ backgroundColor: "transparent" }}>
                         <Text style={styles.item}>{course.courseName}</Text>
                       </Button>

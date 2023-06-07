@@ -33,7 +33,7 @@ const EnrolledCourses = ({ navigation, route }) => {
     studentId = route.params?.id;
   }
   var url = `${getBaseUrl()}/Course/viewEnrolledCourseList?cognitoSid=${
-    route.params?.id
+    route.params?.studentId
   }`;
 
   useEffect(() => {
@@ -63,12 +63,12 @@ const EnrolledCourses = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
+                <View style={styles.headerText}>
+                  <Text style={styles.profileText}>Enrolled Courses</Text>
+                </View>
                 {courses.map((course) => {
                   return (
                     <View>
-                      <View style={styles.headerText}>
-                        <Text style={styles.profileText}>Enrolled Courses</Text>
-                      </View>
                       <View style={{ alignItems: "flex-start" }}>
                         <Button
                           style={{ backgroundColor: "transparent" }}
@@ -76,6 +76,7 @@ const EnrolledCourses = ({ navigation, route }) => {
                           onPress={() => {
                             navigation.navigate("ViewEnrolledCourse", {
                               courseId: course._id,
+                              studentId: route.params?.studentId,
                               email: route.params?.email,
                               studentDetails: route.params?.studentDetails,
                             });

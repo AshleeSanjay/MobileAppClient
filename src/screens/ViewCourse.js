@@ -37,11 +37,12 @@ const ViewCourse = ({ navigation, route }) => {
       const studentId = route.params?.studentId;
       const courseId = route.params?.courseId;
       const url = `${getBaseUrl()}/Course/updateCourse?courseId=${courseId}`;
+      console.log("Student Id: ", route.params?.studentId);
       await fetch(url, {
         headers: { "content-type": "application/json" },
         method: "PATCH",
         body: JSON.stringify({
-          cognitoSid: studentId,
+          cognitoSid: route.params?.studentId,
           email: route.params?.email,
           studentDetails: route.params?.studentDetails,
         }),

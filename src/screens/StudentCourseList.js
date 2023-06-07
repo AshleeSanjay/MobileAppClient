@@ -24,7 +24,7 @@ import { Button, NativeBaseProvider } from "native-base";
 const StudentCourseList = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [courses, setCourses] = useState([]);
-  console.log("CourseList, ID: ", route.params?.id);
+  console.log("CourseList, ID: ", route.params?.studentId);
   var studentId = "";
   if (route.params?.page == "ViewCourse") {
     studentId = route.params?.studentId;
@@ -32,7 +32,6 @@ const StudentCourseList = ({ navigation, route }) => {
     studentId = route.params?.id;
   }
 
-  console.log("From student course list page: ", route.params?.studentId);
   var url = `${getBaseUrl()}/Course/viewStudentCourseList`;
   useEffect(() => {
     fetch(url, {
@@ -61,21 +60,24 @@ const StudentCourseList = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
+                <View>
+                  <View style={styles.headerText}>
+                    <Text style={styles.profileText}>List of course</Text>
+                  </View>
+                </View>
                 {courses.map((course) => {
                   return (
                     <View>
-                      <View>
-                        <View style={styles.headerText}>
-                          <Text style={styles.profileText}>List of course</Text>
-                        </View>
-                      </View>
-                      <View style={{ alignItems: "flex-start" }}>
+                      <View
+                        style={{ alignItems: "flex-start" }}
+                        key={course._id}
+                      >
                         <Button
                           variant="link"
                           onPress={() => {
                             navigation.navigate("ViewCourse", {
                               courseId: course._id,
-                              studentId: course.cognitoSid,
+                              studentId: route.params?.studentId,
                               courseName: course.courseName,
                               courseContent: course.courseContent,
                               email: route.params?.email,
@@ -99,7 +101,7 @@ const StudentCourseList = ({ navigation, route }) => {
               label={"Back"}
               onPress={async () =>
                 navigation.navigate("StudentHome", {
-                  studentId: route.params?.id,
+                  studentId: route.params?.studentId,
                   email: route.params?.email,
                   studentDetails: route.params?.studentDetails,
                   page: "StudentCourse",

@@ -78,7 +78,7 @@ const ViewEnrolledCourse = ({ navigation, route }) => {
                       onPress={() => {
                         navigation.navigate("ViewAssignmentList", {
                           courseId: course._id,
-                          studentId: route.params.id,
+                          studentId: route.params.studentId,
                           email: route.params?.email,
                           studentDetails: route.params?.studentDetails,
                         });
@@ -106,7 +106,7 @@ const ViewEnrolledCourse = ({ navigation, route }) => {
               label={"Back"}
               onPress={async () =>
                 navigation.navigate("EnrolledCourses", {
-                  studentId: studentId,
+                  studentId: route.params?.studentId,
                   email: route.params?.email,
                   studentDetails: route.params?.studentDetails,
                   page: "ViewEnrolledCourse",

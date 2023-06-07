@@ -76,7 +76,10 @@ const ViewTeacheAssignments = ({ navigation, route }) => {
               <View style={styles.container}>
                 {assignments.map((assignment) => {
                   return (
-                    <View style={{ alignItems: "flex-start" }}>
+                    <View
+                      style={{ alignItems: "flex-start" }}
+                      key={assignment._id}
+                    >
                       <View
                         style={{
                           flexDirection: "row",

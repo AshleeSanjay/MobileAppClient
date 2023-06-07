@@ -22,23 +22,40 @@ import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import { getBaseUrl } from "../utils";
 
-const EditStudentProfile = ({ navigation }) => {
+const EditStudentProfile = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
   const [name, setName] = useState("");
   const [mobile, setMobile] = useState("");
 
-  const saveDetails = async function (name, mobile, url) {
-    console.log("URL: ", url);
-    await fetch(url, {
+  const saveDetails = async function () {
+    var editUrl = `${getBaseUrl()}/Student/updateStudentDetail?studentId=${
+      route.params?.studentId
+    }`;
+    console.log("Student Id: ", route.params?.studentId);
+    console.log("URL: ", editUrl + "Name: ", name + "Mobile: ", mobile);
+    await fetch(editUrl, {
       headers: { "content-type": "application/json" },
-      method: "POST",
+      method: "PATCH",
       body: JSON.stringify({
         name: name,
         mobile: mobile,
       }),
     })
-      .then(() => {
-        navigation.navigate("StudentProfile");
+      .then((resp) => {
+        Alert.alert("Alert", "Details edited Successfully", [
+          {
+            text: "OK",
+            onPress: () => {
+              console.log("button pressed");
+              navigation.navigate("StudentProfile", {
+                email: route.params?.email,
+                studentId: route.params?.studentId,
+                data: route.params?.data,
+                page: "EditStudentProfile",
+              });
+            },
+          },
+        ]);
       })
       .catch((err) => {
         Alert.alert("Warning", `${err}`, [
@@ -104,7 +121,14 @@ const EditStudentProfile = ({ navigation }) => {
         >
           <Text style={{ marginRight: 2 }}>Back to</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate("StudentProfile")}
+            onPress={() =>
+              navigation.navigate("StudentProfile", {
+                mail: route.params?.email,
+                studentId: route.params?.studentId,
+                data: route.params?.data,
+                page: "EditStudentProfile",
+              })
+            }
           >
             <Text style={{ color: "#30CC94", fontWeight: "700" }}>
               StudentProfile

@@ -29,7 +29,7 @@ const ViewAssignmentList = ({ navigation, route }) => {
   var url = `${getBaseUrl()}/Assignment/viewAssignment?courseId=${
     route.params?.courseId
   }`;
-  console.log("URL: ", url);
+  console.log("Student id: ", route.params?.studentId);
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
@@ -65,7 +65,10 @@ const ViewAssignmentList = ({ navigation, route }) => {
               <View style={styles.container}>
                 {assignments.map((assignment) => {
                   return (
-                    <View style={{ alignItems: "flex-start" }}>
+                    <View
+                      style={{ alignItems: "flex-start" }}
+                      key={assignment._id}
+                    >
                       <View
                         style={{
                           flexDirection: "row",
@@ -77,7 +80,7 @@ const ViewAssignmentList = ({ navigation, route }) => {
                           onPress={() => {
                             navigation.navigate("SubmitAssignment", {
                               assignmentId: assignment._id,
-                              cognitoSid: route.params?.studentId,
+                              studentId: route.params?.studentId,
                               courseId: route.params?.courseId,
                               email: route.params?.email,
                               studentDetails: route.params?.studentDetails,

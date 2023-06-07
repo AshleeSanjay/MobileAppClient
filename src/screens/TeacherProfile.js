@@ -19,17 +19,29 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-const editTeacherProfile = async function () {
-  try {
-    console.log("Edit Teacher Profile");
-    navigation.navigate("EditTeacherProfile");
-  } catch (error) {
-    console.log("Error in editing teacher profile", error);
-  }
-};
 const TeacherProfile = ({ navigation, route }) => {
   const jsonData = route.params?.data;
   console.log("Teacher profile: ", route.params?.data);
+  var teacherId = "";
+  if (route.params?.page == "EditTeacherProfile") {
+    teacherId = route.params?.teacherId;
+    email = route.params?.email;
+  } else {
+    teacherId = route.params?.data?.cognitoId;
+    email = route.params?.data?.email;
+  }
+  const editTeacherProfile = async function () {
+    try {
+      console.log("Edit Teacher Profile");
+      navigation.navigate("EditTeacherProfile", {
+        teacherId: route.params?.data?.cognitoId,
+        email: route.params?.data?.email,
+        data: route.params?.data,
+      });
+    } catch (error) {
+      console.log("Error in editing teacher profile", error);
+    }
+  };
 
   const insets = useSafeAreaInsets();
   return (
@@ -46,26 +58,10 @@ const TeacherProfile = ({ navigation, route }) => {
         }}
       >
         <View>
-          {/* <View style={{ alignItems: "center", paddingTop: 20 }}></View> */}
-          <View
-            style={
-              styles.headerText
-              // {
-              //   // paddingLeft: 130,
-              //   // backgroundColor: "#30CC94",
-              //   // paddingTop: 60,
-              //   // height: 250,
-              // }
-            }
-          >
+          <View style={styles.headerText}>
             <Text style={styles.profileText}>Profile</Text>
 
-            <Image
-              source={LoginSVG}
-              // width={150}
-              // height={150}
-              style={styles.image}
-            />
+            <Image source={LoginSVG} style={styles.image} />
           </View>
         </View>
         <View style={{ flex: 1, paddingLeft: 20 }}>
@@ -129,6 +125,7 @@ const TeacherProfile = ({ navigation, route }) => {
               navigation.navigate("TeacherHome", {
                 jsonData: jsonData,
                 teacherId: route.params?.data?.cognitoId,
+                email: route.params?.data?.email,
                 teacherDetails: route.params?.data,
               })
             }
@@ -143,6 +140,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
   },
+  logOutText: {
+    paddingLeft: 350,
+    paddingTop: 10,
+  },
   headerText: {
     paddingLeft: Platform.OS === "web" ? 600 : 130,
     backgroundColor: "#30CC94",
@@ -155,15 +156,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 50,
     alignItems: "center",
-    // paddingLeft: Platform.OS === "web" ? 500 : 35,
+    paddingLeft: Platform.OS === "web" ? 500 : 35,
   },
   image: {
     borderRadius: 100,
     border: "4px solid #FFFFFF",
     width: Platform.OS === "web" ? 100 : 150,
     height: Platform.OS === "web" ? 500 : 150,
-
-    // display: Platform.OS === "web" ? "none" : "flex",
   },
   text: {
     color: "white",

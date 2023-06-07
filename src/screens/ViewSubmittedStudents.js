@@ -61,7 +61,10 @@ const ViewSubmittedStudents = ({ navigation, route }) => {
                   return (
                     <View>
                       <View>
-                        <View style={styles.headerText}>
+                        <View
+                          style={styles.headerText}
+                          key={student.cognitoSid}
+                        >
                           <Text style={styles.profileText}>
                             Submitted Students
                           </Text>
