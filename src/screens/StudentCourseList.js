@@ -62,7 +62,7 @@ const StudentCourseList = ({ navigation, route }) => {
               <View style={styles.container}>
                 <View>
                   <View style={styles.headerText}>
-                    <Text style={styles.profileText}>List of course</Text>
+                    <Text style={styles.profileText}>List of courses</Text>
                   </View>
                 </View>
                 {courses.map((course) => {
@@ -121,16 +121,16 @@ const styles = StyleSheet.create({
   headerText: {
     paddingLeft: Platform.OS === "web" ? 600 : 130,
     backgroundColor: "#30CC94",
-    paddingTop: 60,
-    height: 150,
+    paddingTop: 15,
+    height: 70,
   },
   profileText: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: "500",
     color: "#fff",
-    marginBottom: 50,
+    // marginBottom: 50,
     alignItems: "center",
-    // paddingLeft: Platform.OS === "web" ? 500 : 35,
+    paddingLeft: 15,
   },
   image: {
     borderRadius: 100,

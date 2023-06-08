@@ -98,7 +98,26 @@ const ViewCourse = ({ navigation, route }) => {
               </View>
               <View>
                 <View style={{ alignItems: "center", marginRight: 20 }}>
-                  <CustomButton label={"Enroll"} onPress={enrollCourse} />
+                  <Button
+                    style={{
+                      borderColor: "#30CC94",
+                      backgroundColor: "transparent",
+                      marginLeft: 180,
+                      borderWidth: 2,
+                    }}
+                    // label={"Enroll"}
+                    onPress={enrollCourse}
+                  >
+                    <Text
+                      style={{
+                        color: "black",
+                        fontSize: 15,
+                        // fontStyle: "italic",
+                      }}
+                    >
+                      Enroll
+                    </Text>
+                  </Button>
                 </View>
               </View>
             </View>
@@ -131,16 +150,16 @@ const styles = StyleSheet.create({
   headerText: {
     paddingLeft: Platform.OS === "web" ? 600 : 130,
     backgroundColor: "#30CC94",
-    paddingTop: 60,
-    height: 150,
+    paddingTop: 15,
+    height: 70,
   },
   profileText: {
-    fontSize: 28,
+    fontSize: 25,
     fontWeight: "500",
     color: "#fff",
-    marginBottom: 50,
+    // marginBottom: 50,
     alignItems: "center",
-    // paddingLeft: Platform.OS === "web" ? 500 : 35,
+    paddingLeft: 15,
   },
   image: {
     borderRadius: 100,
