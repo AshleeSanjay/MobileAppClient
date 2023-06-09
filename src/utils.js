@@ -15,5 +15,5 @@ export const getBaseUrl = () => {
     return "http://localhost:3000";
   }
 
-  return `http://${localhost}:3000`;
+  return `https://mobileappbackend-production.up.railway.app`;
 };
