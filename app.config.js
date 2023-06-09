@@ -31,9 +31,9 @@ module.exports = () => ({
   },
   extra: {
     // PUBLIC_API_URL: process.env.PUBLIC_API_URL ?? null,
-    // eas: {
-    //   projectId: "d4d476ca-f6fa-4c8c-b203-dc6f66eaf124",
-    // },
+    eas: {
+      projectId: "f0e0b7e8-1a9d-4e7d-9ee9-e5d7f39abf47",
+    },
   },
   plugins: ["./expo-plugins/with-modify-gradle.js"],
 });
