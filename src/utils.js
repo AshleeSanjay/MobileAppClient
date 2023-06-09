@@ -12,8 +12,8 @@ export const getBaseUrl = () => {
 
   const localhost = Constants.manifest?.debuggerHost?.split(":")[0];
   if (!localhost) {
-    return "http://localhost:3000";
+    return "https://mobileappbackend-production.up.railway.app";
   }
 
-  return `https://mobileappbackend-production.up.railway.app`;
+  return `http://${localhost}:3000`;
 };
