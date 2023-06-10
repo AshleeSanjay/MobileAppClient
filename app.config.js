@@ -17,7 +17,7 @@ module.exports = () => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "com.ashleesanjay.education-app",
+    bundleIdentifier: "com.ashleesanjay.educationapp",
     config: {
       usesNonExemptEncryption: false,
     },
@@ -27,7 +27,7 @@ module.exports = () => ({
       foregroundImage: "./src/assets/images/adaptive-icon.png",
       backgroundColor: "#FFFFFF",
     },
-    package: "com.ashleesanjay.education-app",
+    package: "com.ashleesanjay.educationapp",
   },
   extra: {
     // PUBLIC_API_URL: process.env.PUBLIC_API_URL ?? null,
