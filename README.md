@@ -7,3 +7,7 @@ Client Side App dev
 ```bash
 eas build -p android --profile production
 ```
+
+```bash
+eas build -p android --profile preview
+```

@@ -11,19 +11,17 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { Image } from "expo-image";
+
 import LoginSVG from "../assets/images/misc/login.png";
 
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+
 import InputField from "../components/InputField";
 import CustomButton from "../components/CustomButton";
 import { getBaseUrl } from "../utils";
-import DropDownField from "../components/Dropdown";
 
 const AddCourse = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();

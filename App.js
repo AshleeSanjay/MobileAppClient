@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./src/navigation/AuthStack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify, Auth } from "aws-amplify";
 
 Amplify.configure({
   Auth: {
@@ -68,6 +68,8 @@ Amplify.configure({
       ],
       redirectSignIn: "http://localhost:3000/",
       redirectSignOut: "http://localhost:3000/",
+      // redirectSignIn: "https://mobileappbackend-production.up.railway.app",
+      // redirectSignOut: "https://mobileappbackend-production.up.railway.app",
       responseType: "token", // code or 'token', note that REFRESH token will only be generated when the responseType is code
     },
   },

@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { Image } from "expo-image";
+
 import LoginSVG from "../assets/images/misc/login.png";
 
 import {

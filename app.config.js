@@ -1,6 +1,7 @@
 module.exports = () => ({
   name: "Education App",
   slug: "education-app",
+  version: "1.0.0",
   owner: "ashleesanjay",
   scheme: "expo",
   orientation: "portrait",
@@ -35,5 +36,6 @@ module.exports = () => ({
       projectId: "f0e0b7e8-1a9d-4e7d-9ee9-e5d7f39abf47",
     },
   },
-  plugins: ["./expo-plugins/with-modify-gradle.js"],
+  // plugins: ["./expo-plugins/with-modify-gradle.js"],
+  plugins: [],
 });

@@ -1,20 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ImageBackground,
-  StyleSheet,
-  Alert,
-  Platform,
-} from "react-native";
-import InputField from "../components/InputField.js";
+import { View, Text, StyleSheet, Alert, Platform } from "react-native";
+
 import CustomButton from "../components/CustomButton.js";
-import { Image } from "expo-image";
-const ProfileBak = require("../assets/images/misc/profilebak.png");
-import LoginSVG from "../assets/images/misc/studentImg.jpg";
 import {
   SafeAreaView,
   useSafeAreaInsets,

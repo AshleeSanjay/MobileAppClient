@@ -11,9 +11,7 @@ import {
 } from "react-native";
 import InputField from "../components/InputField.js";
 import CustomButton from "../components/CustomButton.js";
-import { Image } from "expo-image";
-const ProfileBak = require("../assets/images/misc/profilebak.png");
-import LoginSVG from "../assets/images/misc/studentImg.jpg";
+
 import { getBaseUrl } from "../utils.js";
 import {
   SafeAreaView,
