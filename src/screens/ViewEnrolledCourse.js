@@ -72,7 +72,7 @@ const ViewEnrolledCourse = ({ navigation, route }) => {
                       style={{
                         borderColor: "#30CC94",
                         backgroundColor: "transparent",
-                        marginLeft: 180,
+                        marginLeft: 90,
                         borderWidth: 2,
                       }}
                       onPress={() => {
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    paddingLeft: Platform.OS === "web" ? 600 : 130,
+    paddingLeft: 100,
     backgroundColor: "#30CC94",
     paddingTop: 15,
     height: 70,

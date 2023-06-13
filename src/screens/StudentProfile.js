@@ -63,7 +63,7 @@ const StudentProfile = ({ navigation, route }) => {
               <Image source={LoginSVG} style={styles.image} />
             </View>
           </View>
-          <View style={{ flex: 1, paddingLeft: 20 }}>
+          <View style={{ flex: 1, paddingLeft: 15 }}>
             <View
               style={{
                 alignItems: "center",
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   logOutText: {
-    paddingLeft: 350,
+    paddingLeft: 300,
     paddingTop: 10,
   },
   headerText: {

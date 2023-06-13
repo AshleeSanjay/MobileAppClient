@@ -46,22 +46,7 @@ const SubmitAssignment = ({ navigation, route }) => {
         }),
       })
         .then((resp) => {
-          Alert.alert("Alert", "Assignment Submitted Successfully", [
-            {
-              text: "OK",
-              onPress: () => {
-                console.log("button pressed");
-                setAnswerOne("");
-                setAnswerTwo("");
-                navigation.navigate("ViewAssignmentList", {
-                  courseId: route.params?.courseId,
-                  email: route.params?.email,
-                  studentDetails: route.params?.studentDetails,
-                  studentId: route.params?.studentId,
-                });
-              },
-            },
-          ]);
+          updateSubmittedStudents();
         })
         .catch((err) => {
           Alert.alert("Warning", `${err}`, [
@@ -83,6 +68,41 @@ const SubmitAssignment = ({ navigation, route }) => {
         },
       ]);
     }
+  };
+
+  const updateSubmittedStudents = async function () {
+    console.log(
+      "Update Submitted Students: Assignment ID: ",
+      route.params?.assignmentId
+    );
+    var updateUrl = `${getBaseUrl()}/Student/updateSubmittedStudents?studentId=${
+      route.params?.studentId
+    }`;
+    console.log("Update URL: ", updateUrl);
+    await fetch(updateUrl, {
+      headers: { "content-type": "application/json" },
+      method: "PATCH",
+      body: JSON.stringify({
+        assignmentId: route.params?.assignmentId,
+      }),
+    }).then((resp) => {
+      Alert.alert("Alert", "Assignment Submitted Successfully", [
+        {
+          text: "OK",
+          onPress: () => {
+            console.log("button pressed");
+            setAnswerOne("");
+            setAnswerTwo("");
+            navigation.navigate("ViewAssignmentList", {
+              courseId: route.params?.courseId,
+              email: route.params?.email,
+              studentDetails: route.params?.studentDetails,
+              studentId: route.params?.studentId,
+            });
+          },
+        },
+      ]);
+    });
   };
   useEffect(() => {
     fetch(url, {
@@ -188,7 +208,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    paddingLeft: Platform.OS === "web" ? 600 : 130,
+    paddingLeft: 100,
     backgroundColor: "#30CC94",
     paddingTop: 15,
     height: 70,

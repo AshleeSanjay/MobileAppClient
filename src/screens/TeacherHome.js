@@ -180,7 +180,7 @@ export default TeacherHome;
 
 const styles = StyleSheet.create({
   logOutText: {
-    paddingLeft: Platform.OS === "web" ? 900 : 350,
+    paddingLeft: 300,
     paddingTop: 10,
   },
   image: {

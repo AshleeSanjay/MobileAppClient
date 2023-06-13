@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   headerText: {
-    paddingLeft: Platform.OS === "web" ? 600 : 130,
+    paddingLeft: 100,
     backgroundColor: "#30CC94",
     paddingTop: 15,
     height: 70,

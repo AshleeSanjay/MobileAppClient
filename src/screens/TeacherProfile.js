@@ -64,7 +64,7 @@ const TeacherProfile = ({ navigation, route }) => {
             <Image source={LoginSVG} style={styles.image} />
           </View>
         </View>
-        <View style={{ flex: 1, paddingLeft: 20 }}>
+        <View style={{ flex: 1, paddingLeft: 15 }}>
           <View
             style={{
               alignItems: "center",
@@ -141,22 +141,22 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   logOutText: {
-    paddingLeft: 350,
+    paddingLeft: 300,
     paddingTop: 10,
   },
   headerText: {
-    paddingLeft: Platform.OS === "web" ? 600 : 130,
+    paddingLeft: 130,
     backgroundColor: "#30CC94",
-    paddingTop: 15,
-    height: 70,
+    paddingTop: 60,
+    height: 250,
   },
   profileText: {
-    fontSize: 25,
+    fontSize: 28,
     fontWeight: "500",
     color: "#fff",
-    // marginBottom: 50,
+    marginBottom: 50,
     alignItems: "center",
-    paddingLeft: 15,
+    paddingLeft: 35,
   },
   image: {
     borderRadius: 100,
