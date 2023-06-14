@@ -17,6 +17,10 @@ const ViewTeacheAssignments = ({ navigation, route }) => {
 
   var url = `${getBaseUrl()}/Assignment/viewTeacherAssignment`;
   var submittedUrl = `${getBaseUrl()}/Assignment/submittedAssignmentList`;
+  console.log(
+    "From view teacher assignment page: ",
+    route.params?.teacherDetails
+  );
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
@@ -82,6 +86,7 @@ const ViewTeacheAssignments = ({ navigation, route }) => {
                               cognitoSid: assignment.cognitoSid,
                               teacherId: assignment.cognitoId,
                               teacherDetails: route.params?.teacherDetails,
+                              email: route.params?.email,
                             });
                           }}
                         >
@@ -106,6 +111,7 @@ const ViewTeacheAssignments = ({ navigation, route }) => {
                 navigation.navigate("TeacherHome", {
                   teacherDetails: route.params?.teacherDetails,
                   teacherId: route.params?.teacherDetails?.cognitoId,
+                  email: route.params?.email,
                   page: "ViewTeacherAssignments",
                 })
               }

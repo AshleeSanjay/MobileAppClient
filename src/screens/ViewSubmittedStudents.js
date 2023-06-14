@@ -45,38 +45,43 @@ const ViewSubmittedStudents = ({ navigation, route }) => {
               }}
             >
               <View style={styles.container}>
-                {students.map((student) => {
-                  return (
-                    <View>
+                {students.length === 0 && <Text>No records available</Text>}
+                {students.length > 0 &&
+                  students.map((student) => {
+                    return (
                       <View>
+                        <View>
+                          <View
+                            style={styles.headerText}
+                            key={student.cognitoSid}
+                          >
+                            <Text style={styles.profileText}>
+                              Submitted Students
+                            </Text>
+                          </View>
+                        </View>
                         <View
-                          style={styles.headerText}
-                          key={student.cognitoSid}
+                          style={{ alignItems: "flex-start" }}
+                          key={student.assignmentId}
                         >
-                          <Text style={styles.profileText}>
-                            Submitted Students
-                          </Text>
+                          <Button
+                            variant="link"
+                            onPress={() => {
+                              navigation.navigate("ViewSubmittedAssignment", {
+                                assignmentId: student.assignmentId,
+                                studentId: student.cognitoSid,
+                                teacherId:
+                                  route.params?.teacherDetails?.cognitoId,
+                                teacherDetails: route.params?.teacherDetails,
+                              });
+                            }}
+                          >
+                            <Text style={styles.item}>{student.name}</Text>
+                          </Button>
                         </View>
                       </View>
-                      <View style={{ alignItems: "flex-start" }}>
-                        <Button
-                          variant="link"
-                          onPress={() => {
-                            navigation.navigate("ViewSubmittedAssignment", {
-                              assignmentId: student.assignmentId,
-                              studentId: student.cognitoSid,
-                              teacherId:
-                                route.params?.teacherDetails?.cognitoId,
-                              teacherDetails: route.params?.teacherDetails,
-                            });
-                          }}
-                        >
-                          <Text style={styles.item}>{student.name}</Text>
-                        </Button>
-                      </View>
-                    </View>
-                  );
-                })}
+                    );
+                  })}
               </View>
             </View>
           </View>
@@ -114,7 +119,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     // marginBottom: 50,
     alignItems: "center",
-    paddingLeft: 15,
+    paddingLeft: 10,
   },
   image: {
     borderRadius: 100,

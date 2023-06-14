@@ -62,15 +62,16 @@ const StudentHome = ({ navigation, route }) => {
       userRole = route.params?.jsonData?.userType;
     }
     url = "";
+    url = `${getBaseUrl()}/Student/profile?email=${route.params?.email}`;
 
-    if (route.params?.page == "Login") {
-      url = `${getBaseUrl()}/Student/profile?email=${route.params?.email}`;
-    } else {
-      console.log("Student Home email: ", route.params?.studentDetails);
-      url = `${getBaseUrl()}/Student/profile?email=${
-        route.params?.studentDetails?.email
-      }`;
-    }
+    // if (route.params?.page == "Login") {
+    //   url = `${getBaseUrl()}/Student/profile?email=${route.params?.email}`;
+    // } else {
+    //   console.log("Student Home email: ", route.params?.studentDetails);
+    //   url = `${getBaseUrl()}/Student/profile?email=${
+    //     route.params?.studentDetails?.email
+    //   }`;
+    // }
 
     fetch(url)
       .then((response) => response.json())
@@ -147,7 +148,7 @@ const StudentHome = ({ navigation, route }) => {
               navigation.navigate("EnrolledCourses", {
                 studentId: route.params?.studentId,
                 email: route.params?.email,
-                studentDetails: data,
+                studentDetails: route.params?.studentDetails,
               });
             }}
           >

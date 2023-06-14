@@ -33,7 +33,7 @@ const EnrolledCourses = ({ navigation, route }) => {
   var url = `${getBaseUrl()}/Course/viewEnrolledCourseList?cognitoSid=${
     route.params?.studentId
   }`;
-
+  console.log("Enrolled Course page: ", route.params?.email);
   useEffect(() => {
     fetch(url, {
       headers: { "content-type": "application/json" },
@@ -67,7 +67,10 @@ const EnrolledCourses = ({ navigation, route }) => {
                 {courses.map((course) => {
                   return (
                     <View>
-                      <View style={{ alignItems: "flex-start" }}>
+                      <View
+                        style={{ alignItems: "flex-start" }}
+                        key={course._id}
+                      >
                         <Button
                           style={{ backgroundColor: "transparent" }}
                           variant="link"

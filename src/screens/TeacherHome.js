@@ -28,6 +28,7 @@ const TeacherHome = ({ navigation, route }) => {
   const profileEmail = route.params?.jsonData?.email;
   const params = route.params?.email;
 
+  console.log("Teacher Home: ");
   var url = "";
   var userRole = "";
 
@@ -163,7 +164,8 @@ const TeacherHome = ({ navigation, route }) => {
             onPress={() => {
               navigation.navigate("ViewTeacherAssignments", {
                 id: route.params?.teacherId,
-                teacherDetails: data,
+                teacherDetails: route.params?.teacherDetails,
+                email: route.params?.email,
               });
             }}
           >
