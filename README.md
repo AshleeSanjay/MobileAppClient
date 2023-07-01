@@ -1,2 +1,13 @@
 # MobileAppClient
-Client Side App
+
+Client Side App dev
+
+# Build the app for production
+
+```bash
+eas build -p android --profile production
+```
+
+```bash
+eas build -p android --profile preview
+```
